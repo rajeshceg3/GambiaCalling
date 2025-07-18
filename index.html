@@ -1,0 +1,395 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gambia: A Quiet Discovery</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <style>
+        /* --- Jony Ive Inspired Design System --- */
+        :root {
+            --color-background: #FDF8F0; /* Warm, sandy cream */
+            --color-text: #4A4A4A; /* Soft charcoal */
+            --color-shadow: rgba(74, 74, 74, 0.1);
+            
+            --color-card-1: #B8C4BB; /* Baobab Green */
+            --color-card-2: #C2D8E2; /* River Sky Blue */
+            --color-card-3: #F9DDA4; /* Golden Shore */
+
+            --font-main: 'Poppins', sans-serif;
+            --transition-curve: cubic-bezier(0.645, 0.045, 0.355, 1); /* Elegant ease-in-out */
+        }
+
+        /* --- Base & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Critical for single-page app feel */
+            
+            /* The subtle geometric background pattern */
+            background-image: 
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.5), transparent 60%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* --- Main App Container --- */
+        .app-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s var(--transition-curve);
+        }
+
+        .app-container.detail-view-active {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* --- Typography & Header --- */
+        .main-header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 1.2s var(--transition-curve) forwards;
+            opacity: 0;
+        }
+
+        .main-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .main-header p {
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
+
+        /* --- The Interactive Card Stack --- */
+        .attraction-stack {
+            position: relative;
+            width: 320px;
+            height: 450px;
+            perspective: 1500px;
+        }
+
+        .attraction-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            padding: 40px;
+            cursor: pointer;
+            
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            box-shadow: 0 20px 60px var(--color-shadow);
+            transform-style: preserve-3d;
+            transition: transform 0.8s var(--transition-curve), box-shadow 0.8s var(--transition-curve);
+            
+            animation: fadeInUp 1s var(--transition-curve) forwards;
+            animation-delay: var(--delay);
+            opacity: 0;
+        }
+
+        .attraction-card:hover {
+            box-shadow: 0 35px 80px rgba(0,0,0,0.15);
+            transform: translateY(-15px) rotateZ(var(--hover-rotate, 0deg)) !important;
+        }
+
+        #card-kachikally { background: var(--color-card-1); z-index: 3; transform: rotateZ(-2deg); --delay: 0.3s; --hover-rotate: -3deg; }
+        #card-tanji { background: var(--color-card-2); z-index: 2; transform: translateY(20px) rotateZ(3deg); --delay: 0.45s; --hover-rotate: 4deg; }
+        #card-shores { background: var(--color-card-3); z-index: 1; transform: translateY(40px) rotateZ(-4deg); --delay: 0.6s; --hover-rotate: -5deg; }
+
+        .card-content h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: rgba(0,0,0,0.6);
+            line-height: 1.1;
+        }
+
+        .card-content p {
+            font-weight: 500;
+            margin-top: 10px;
+            color: rgba(0,0,0,0.5);
+        }
+
+        /* --- The Detail View Panel --- */
+        .detail-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+            transition: opacity 0.8s var(--transition-curve), transform 0.8s var(--transition-curve);
+            
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .detail-panel.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+            z-index: 100;
+        }
+
+        .detail-content {
+            background: var(--color-background);
+            width: 90%;
+            max-width: 900px;
+            height: 80vh;
+            max-height: 600px;
+            border-radius: 20px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            padding: 50px;
+            position: relative;
+        }
+
+        .detail-text {
+            padding-right: 40px;
+        }
+
+        .detail-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+        
+        .detail-text p {
+            font-size: 1rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* --- CSS Geometric "Art" Shapes --- */
+        .detail-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+        
+        [data-visual="kachikally"] .detail-visual { background: linear-gradient(135deg, #4e5a53, #2e3a34); }
+        [data-visual="kachikally"] .detail-visual::before {
+            content: '';
+            width: 200px;
+            height: 200px;
+            background: linear-gradient(135deg, #B8C4BB, #9eab9f);
+            border-radius: 50%;
+            box-shadow: inset 0 0 40px rgba(0,0,0,0.2);
+        }
+
+        [data-visual="tanji"] .detail-visual { background: linear-gradient(180deg, var(--color-card-2), #e1f0f8); }
+        [data-visual="tanji"] .detail-visual .bird {
+            position: absolute;
+            width: 15px; height: 3px; background: var(--color-text);
+            opacity: 0.3; border-radius: 50%;
+        }
+        .bird:nth-child(1) { transform: translate(-80px, -50px) rotate(-20deg) scale(1.5); }
+        .bird:nth-child(2) { transform: translate(-40px, 20px) rotate(-20deg) scale(1); }
+        .bird:nth-child(3) { transform: translate(50px, -30px) rotate(-20deg) scale(1.2); }
+        .bird:nth-child(4) { transform: translate(90px, 40px) rotate(-20deg) scale(0.9); }
+        
+        [data-visual="shores"] .detail-visual { background: linear-gradient(180deg, #d3e7f1 0%, #fef3d7 50%, var(--color-card-3) 51%); }
+        [data-visual="shores"] .detail-visual::before {
+             content: ''; position: absolute; top: 50%; left:0; right:0; height: 10px;
+             background: linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.8), rgba(255,255,255,0));
+             transform: translateY(-5px) skewX(-30deg);
+        }
+
+        /* --- Close Button --- */
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.05);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .close-btn:hover { background: rgba(0,0,0,0.1); transform: rotate(90deg); }
+        .close-btn::before, .close-btn::after {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 20px; height: 2px; background: var(--color-text);
+        }
+        .close-btn::before { transform: translate(-50%, -50%) rotate(45deg); }
+        .close-btn::after { transform: translate(-50%, -50%) rotate(-45deg); }
+
+
+        /* --- Keyframe Animations --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px) rotateZ(var(--start-rotate, 0deg)); }
+            to { opacity: 1; transform: translateY(var(--end-translate, 0px)) rotateZ(var(--end-rotate, 0deg)); }
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 950px) {
+            .detail-content {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 250px;
+                height: 90vh;
+                padding: 40px;
+            }
+            .detail-text { padding-right: 0; margin-bottom: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .main-header h1 { font-size: 2.5rem; }
+            .attraction-stack { transform: scale(0.9); }
+            .detail-text h1 { font-size: 2.8rem; }
+            .detail-content { padding: 30px; }
+            .close-btn { top: 15px; right: 15px; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container" id="app-container">
+        <header class="main-header">
+            <h1>Gambia</h1>
+            <p>A QUIET DISCOVERY</p>
+        </header>
+
+        <main class="attraction-stack">
+            <div class="attraction-card" id="card-kachikally" data-target="detail-kachikally">
+                <div class="card-content">
+                    <h2>The Sacred Pool</h2>
+                    <p>Kachikally</p>
+                </div>
+            </div>
+            <div class="attraction-card" id="card-tanji" data-target="detail-tanji">
+                <div class="card-content">
+                    <h2>The Avian Dance</h2>
+                    <p>Tanji Bird Reserve</p>
+                </div>
+            </div>
+            <div class="attraction-card" id="card-shores" data-target="detail-shores">
+                <div class="card-content">
+                    <h2>The Golden Shores</h2>
+                    <p>Coastal Beaches</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Detail Panels (Hidden by default) -->
+    <section class="detail-panel" id="detail-kachikally" data-visual="kachikally">
+        <div class="detail-content">
+            <button class="close-btn" aria-label="Close details"></button>
+            <div class="detail-text">
+                <h1>Kachikally</h1>
+                <p>Home to a sacred crocodile pool, Kachikally is a place of myth and tranquility. Generations have come to witness the serene reptiles, believed to hold healing powers. The atmosphere is thick with history, a quiet reverence shared between man and beast.</p>
+            </div>
+            <div class="detail-visual"></div>
+        </div>
+    </section>
+
+    <section class="detail-panel" id="detail-tanji" data-visual="tanji">
+        <div class="detail-content">
+            <button class="close-btn" aria-label="Close details"></button>
+            <div class="detail-text">
+                <h1>Tanji Reserve</h1>
+                <p>The sky over the Tanji River is a canvas for hundreds of bird species. It's a world-renowned reserve where the air hums with calls and the flutter of wings. From vibrant sunbirds to majestic ospreys, it is a symphony of nature in perpetual motion.</p>
+            </div>
+            <div class="detail-visual">
+                <div class="bird"></div><div class="bird"></div><div class="bird"></div><div class="bird"></div>
+            </div>
+        </div>
+    </section>
+
+    <section class="detail-panel" id="detail-shores" data-visual="shores">
+        <div class="detail-content">
+            <button class="close-btn" aria-label="Close details"></button>
+            <div class="detail-text">
+                <h1>Golden Shores</h1>
+                <p>The coastline of Gambia is a stretch of unspoiled, golden sand meeting the gentle Atlantic. Life here moves at the pace of the tides. Fishing pirogues paint the horizon at dawn, and the setting sun melts into the ocean, leaving a sky of pastel fire.</p>
+            </div>
+            <div class="detail-visual"></div>
+        </div>
+    </section>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const appContainer = document.getElementById('app-container');
+            const attractionCards = document.querySelectorAll('.attraction-card');
+            const detailPanels = document.querySelectorAll('.detail-panel');
+            const closeButtons = document.querySelectorAll('.close-btn');
+
+            // --- Open Detail View ---
+            attractionCards.forEach(card => {
+                card.addEventListener('click', () => {
+                    const targetId = card.getAttribute('data-target');
+                    const targetPanel = document.getElementById(targetId);
+
+                    if (targetPanel) {
+                        // Add active class to fade out the main view
+                        appContainer.classList.add('detail-view-active');
+                        // Add active class to show the selected detail panel
+                        targetPanel.classList.add('active');
+                    }
+                });
+            });
+
+            // --- Close Detail View ---
+            function closeAllPanels() {
+                 appContainer.classList.remove('detail-view-active');
+                 detailPanels.forEach(panel => {
+                    panel.classList.remove('active');
+                });
+            }
+
+            closeButtons.forEach(button => {
+                button.addEventListener('click', closeAllPanels);
+            });
+            
+            // Optional: Close with escape key
+            document.addEventListener('keydown', (event) => {
+                if (event.key === 'Escape') {
+                    closeAllPanels();
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+
