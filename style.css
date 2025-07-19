@@ -1,0 +1,296 @@
+        /* --- Jony Ive Inspired Design System --- */
+        :root {
+            --color-background: #FDF8F0; /* Warm, sandy cream */
+            --color-text: #4A4A4A; /* Soft charcoal */
+            --color-shadow: rgba(74, 74, 74, 0.1);
+
+            --color-card-1: #B8C4BB; /* Baobab Green */
+            --color-card-2: #C2D8E2; /* River Sky Blue */
+            --color-card-3: #F9DDA4; /* Golden Shore */
+            --color-card-4: #D3E2C2; /* Forest Canopy Green */
+            --color-card-5: #E2D1C2; /* Historic Earth Brown */
+
+            --font-main: 'Poppins', sans-serif;
+            --transition-curve: cubic-bezier(0.645, 0.045, 0.355, 1); /* Elegant ease-in-out */
+        }
+
+        /* --- Base & Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: var(--font-main);
+            background-color: var(--color-background);
+            color: var(--color-text);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            overflow: hidden; /* Critical for single-page app feel */
+
+            /* The subtle geometric background pattern */
+            background-image:
+                radial-gradient(circle at center, rgba(255, 255, 255, 0.5), transparent 60%),
+                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+        }
+
+        /* --- Main App Container --- */
+        .app-container {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: opacity 0.8s var(--transition-curve);
+        }
+
+        .app-container.detail-view-active {
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        /* --- Typography & Header --- */
+        .main-header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInDown 1.2s var(--transition-curve) forwards;
+            opacity: 0;
+        }
+
+        .main-header h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 5px;
+            text-transform: uppercase;
+        }
+
+        .main-header p {
+            font-size: 1rem;
+            font-weight: 300;
+            letter-spacing: 2px;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
+
+        /* --- The Interactive Card Stack --- */
+        .attraction-stack {
+            position: relative;
+            width: 320px;
+            height: 450px;
+            perspective: 1500px;
+        }
+
+        .attraction-card {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 20px;
+            padding: 40px;
+            cursor: pointer;
+
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+
+            box-shadow: 0 20px 60px var(--color-shadow);
+            transform-style: preserve-3d;
+            transition: transform 0.8s var(--transition-curve), box-shadow 0.8s var(--transition-curve);
+
+            animation: fadeInUp 1s var(--transition-curve) forwards;
+            animation-delay: var(--delay);
+            opacity: 0;
+        }
+
+        .attraction-card:hover {
+            box-shadow: 0 35px 80px rgba(0,0,0,0.15);
+            transform: translateY(-15px) rotateZ(var(--hover-rotate, 0deg)) !important;
+        }
+
+        #card-kachikally { background: var(--color-card-1); z-index: 5; transform: rotateZ(-2deg); --delay: 0.3s; --hover-rotate: -3deg; }
+        #card-tanji { background: var(--color-card-2); z-index: 4; transform: translateY(20px) rotateZ(3deg); --delay: 0.45s; --hover-rotate: 4deg; }
+        #card-shores { background: var(--color-card-3); z-index: 3; transform: translateY(40px) rotateZ(-4deg); --delay: 0.6s; --hover-rotate: -5deg; }
+        #card-bijilo { background: var(--color-card-4); z-index: 2; transform: translateY(60px) rotateZ(2deg); --delay: 0.75s; --hover-rotate: 3deg; }
+        #card-janjanbureh { background: var(--color-card-5); z-index: 1; transform: translateY(80px) rotateZ(-3deg); --delay: 0.9s; --hover-rotate: -4deg; }
+
+        .card-content h2 {
+            font-size: 2.2rem;
+            font-weight: 700;
+            color: rgba(0,0,0,0.6);
+            line-height: 1.1;
+        }
+
+        .card-content p {
+            font-weight: 500;
+            margin-top: 10px;
+            color: rgba(0,0,0,0.5);
+        }
+
+        .map-button {
+            background: rgba(0,0,0,0.1);
+            border: none;
+            border-radius: 10px;
+            color: rgba(0,0,0,0.6);
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-size: 0.8rem;
+            margin-top: 20px;
+            padding: 10px 15px;
+            transition: background 0.3s;
+        }
+
+        .map-button:hover {
+            background: rgba(0,0,0,0.2);
+        }
+
+        /* --- The Detail View Panel --- */
+        .detail-panel {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+
+            opacity: 0;
+            pointer-events: none;
+            transform: scale(0.95);
+            transition: opacity 0.8s var(--transition-curve), transform 0.8s var(--transition-curve);
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .detail-panel.active {
+            opacity: 1;
+            pointer-events: all;
+            transform: scale(1);
+            z-index: 100;
+        }
+
+        .detail-content {
+            background: var(--color-background);
+            width: 90%;
+            max-width: 900px;
+            height: 80vh;
+            max-height: 600px;
+            border-radius: 20px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            padding: 50px;
+            position: relative;
+        }
+
+        .detail-text {
+            padding-right: 40px;
+        }
+
+        .detail-text h1 {
+            font-size: 3.5rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            margin-bottom: 20px;
+        }
+
+        .detail-text p {
+            font-size: 1rem;
+            line-height: 1.8;
+            font-weight: 300;
+        }
+
+        /* --- CSS Geometric "Art" Shapes --- */
+        .detail-visual {
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .leaflet-tile-pane {
+            filter: grayscale(0.8);
+        }
+
+
+
+
+
+
+        /* --- Close Button --- */
+        .close-btn {
+            position: absolute;
+            top: 25px;
+            right: 25px;
+            width: 40px;
+            height: 40px;
+            background: rgba(0,0,0,0.05);
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.3s;
+        }
+        .close-btn:hover { background: rgba(0,0,0,0.1); transform: rotate(90deg); }
+        .close-btn::before, .close-btn::after {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 20px; height: 2px; background: var(--color-text);
+        }
+        .close-btn::before { transform: translate(-50%, -50%) rotate(45deg); }
+        .close-btn::after { transform: translate(-50%, -50%) rotate(-45deg); }
+
+
+        /* --- Keyframe Animations --- */
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(50px) rotateZ(var(--start-rotate, 0deg)); }
+            to { opacity: 1; transform: translateY(var(--end-translate, 0px)) rotateZ(var(--end-rotate, 0deg)); }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes fly {
+            0% { transform: translateX(-100px) rotate(-20deg); }
+            50% { transform: translateX(100px) rotate(-20deg) translateY(-20px); }
+            100% { transform: translateX(-100px) rotate(-20deg); }
+        }
+        @keyframes wave {
+            0%, 100% { transform: translateY(-5px) skewX(-30deg); }
+            50% { transform: translateY(0px) skewX(-30deg); }
+        }
+        @keyframes sway {
+            0%, 100% { transform: rotate(10deg); }
+            50% { transform: rotate(-10deg); }
+        }
+
+        /* --- Responsive Adjustments --- */
+        @media (max-width: 950px) {
+            .detail-content {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto 250px;
+                height: 90vh;
+                padding: 40px;
+            }
+            .detail-text { padding-right: 0; margin-bottom: 30px; }
+        }
+
+        @media (max-width: 768px) {
+            .main-header h1 { font-size: 2.5rem; }
+            .attraction-stack { transform: scale(0.9); }
+            .detail-text h1 { font-size: 2.8rem; }
+            .detail-content { padding: 30px; }
+            .close-btn { top: 15px; right: 15px; }
+        }
