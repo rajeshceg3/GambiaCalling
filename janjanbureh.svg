@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 200">
+  <defs>
+    <pattern id="pattern-janjanbureh" width="6" height="6" patternUnits="userSpaceOnUse">
+      <path d="M5 0h1L0 6V5zM6 5v1H5z" fill="#9C92AC" fill-opacity="0.05" />
+    </pattern>
+    <linearGradient id="river-janjanbureh" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" style="stop-color:transparent;" />
+      <stop offset="100%" style="stop-color:#C2D8E2;" />
+    </linearGradient>
+  </defs>
+  <rect x="0" y="0" width="400" height="200" fill="#E2D1C2" />
+  <rect x="0" y="0" width="400" height="200" fill="url(#pattern-janjanbureh)" />
+  <text x="50%" y="50%" font-family="Times New Roman, serif" font-size="8rem" fill="rgba(0,0,0,0.1)" transform="rotate(-10 200 100)" text-anchor="middle">1832</text>
+  <rect x="0" y="150" width="400" height="50" fill="url(#river-janjanbureh)" />
+</svg>
