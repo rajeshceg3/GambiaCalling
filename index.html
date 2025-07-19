@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <style>
         /* --- Jony Ive Inspired Design System --- */
         :root {
@@ -140,6 +141,23 @@
             color: rgba(0,0,0,0.5);
         }
 
+        .map-button {
+            background: rgba(0,0,0,0.1);
+            border: none;
+            border-radius: 10px;
+            color: rgba(0,0,0,0.6);
+            cursor: pointer;
+            font-family: var(--font-main);
+            font-size: 0.8rem;
+            margin-top: 20px;
+            padding: 10px 15px;
+            transition: background 0.3s;
+        }
+
+        .map-button:hover {
+            background: rgba(0,0,0,0.2);
+        }
+
         /* --- The Detail View Panel --- */
         .detail-panel {
             position: fixed;
@@ -204,6 +222,15 @@
             align-items: center;
             overflow: hidden;
             border-radius: 15px;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 100%;
+        }
+
+        .leaflet-tile-pane {
+            filter: grayscale(0.8);
         }
         
         [data-visual="kachikally"] .detail-visual { background: linear-gradient(135deg, #4e5a53, #2e3a34); }
@@ -319,30 +346,35 @@
                 <div class="card-content">
                     <h2>The Sacred Pool</h2>
                     <p>Kachikally</p>
+                    <button class="map-button">View on Map</button>
                 </div>
             </div>
             <div class="attraction-card" id="card-tanji" data-target="detail-tanji">
                 <div class="card-content">
                     <h2>The Avian Dance</h2>
                     <p>Tanji Bird Reserve</p>
+                    <button class="map-button">View on Map</button>
                 </div>
             </div>
             <div class="attraction-card" id="card-shores" data-target="detail-shores">
                 <div class="card-content">
                     <h2>The Golden Shores</h2>
                     <p>Coastal Beaches</p>
+                    <button class="map-button">View on Map</button>
                 </div>
             </div>
             <div class="attraction-card" id="card-bijilo" data-target="detail-bijilo">
                 <div class="card-content">
                     <h2>The Whispering Woods</h2>
                     <p>Bijilo Forest Park</p>
+                    <button class="map-button">View on Map</button>
                 </div>
             </div>
             <div class="attraction-card" id="card-janjanbureh" data-target="detail-janjanbureh">
                 <div class="card-content">
                     <h2>A Step Back in Time</h2>
                     <p>Janjanbureh</p>
+                    <button class="map-button">View on Map</button>
                 </div>
             </div>
         </main>
@@ -356,7 +388,7 @@
                 <h1>Kachikally</h1>
                 <p>Home to a sacred crocodile pool, Kachikally is a place of myth and tranquility. Generations have come to witness the serene reptiles, believed to hold healing powers. The atmosphere is thick with history, a quiet reverence shared between man and beast.</p>
             </div>
-            <div class="detail-visual"></div>
+            <div class="detail-visual"><div id="map-kachikally" class="map-container"></div></div>
         </div>
     </section>
 
@@ -367,7 +399,7 @@
                 <h1>Bijilo Forest</h1>
                 <p>A protected woodland reserve, Bijilo is a sanctuary for green vervet monkeys and a rich variety of birdlife. The canopied trails offer a cool escape, where the sounds of the forest replace the city's hum. It’s a vital green lung and a haven for nature lovers.</p>
             </div>
-            <div class="detail-visual"></div>
+            <div class="detail-visual"><div id="map-bijilo" class="map-container"></div></div>
         </div>
     </section>
 
@@ -378,7 +410,7 @@
                 <h1>Janjanbureh</h1>
                 <p>Located on an island in the Gambia River, Janjanbureh (formerly Georgetown) is a historic settlement with roots in the colonial era. Its quiet streets and weathered buildings tell stories of a complex past, offering a profound glimpse into the nation's history.</p>
             </div>
-            <div class="detail-visual"></div>
+            <div class="detail-visual"><div id="map-janjanbureh" class="map-container"></div></div>
         </div>
     </section>
 
@@ -389,9 +421,7 @@
                 <h1>Tanji Reserve</h1>
                 <p>The sky over the Tanji River is a canvas for hundreds of bird species. It's a world-renowned reserve where the air hums with calls and the flutter of wings. From vibrant sunbirds to majestic ospreys, it is a symphony of nature in perpetual motion.</p>
             </div>
-            <div class="detail-visual">
-                <div class="bird"></div><div class="bird"></div><div class="bird"></div><div class="bird"></div>
-            </div>
+            <div class="detail-visual"><div id="map-tanji" class="map-container"></div></div>
         </div>
     </section>
 
@@ -402,63 +432,12 @@
                 <h1>Golden Shores</h1>
                 <p>The coastline of Gambia is a stretch of unspoiled, golden sand meeting the gentle Atlantic. Life here moves at the pace of the tides. Fishing pirogues paint the horizon at dawn, and the setting sun melts into the ocean, leaving a sky of pastel fire.</p>
             </div>
-            <div class="detail-visual"></div>
+            <div class="detail-visual"><div id="map-shores" class="map-container"></div></div>
         </div>
     </section>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const appContainer = document.getElementById('app-container');
-            const attractionCards = document.querySelectorAll('.attraction-card');
-            const detailPanels = document.querySelectorAll('.detail-panel');
-            const closeButtons = document.querySelectorAll('.close-btn');
-            let lastOpenedCard = null; // To keep track of the card that was opened
-
-            // --- Open Detail View ---
-            attractionCards.forEach(card => {
-                card.addEventListener('click', () => {
-                    const targetId = card.getAttribute('data-target');
-                    const targetPanel = document.getElementById(targetId);
-
-                    if (targetPanel) {
-                        lastOpenedCard = card; // Store the clicked card
-                        // Add active class to fade out the main view
-                        appContainer.classList.add('detail-view-active');
-                        // Add active class to show the selected detail panel
-                        targetPanel.classList.add('active');
-                    }
-                });
-            });
-
-            // --- Close Detail View ---
-            function closeAllPanels() {
-                 appContainer.classList.remove('detail-view-active');
-                 detailPanels.forEach(panel => {
-                    panel.classList.remove('active');
-                });
-
-                // If a card was opened, remove it from the DOM after a delay
-                if (lastOpenedCard) {
-                    // The timeout provides a smoother visual effect, allowing the panel to fade out
-                    setTimeout(() => {
-                        lastOpenedCard.remove();
-                        lastOpenedCard = null; // Reset for the next interaction
-                    }, 500); // 500ms delay
-                }
-            }
-
-            closeButtons.forEach(button => {
-                button.addEventListener('click', closeAllPanels);
-            });
-            
-            // Optional: Close with escape key
-            document.addEventListener('keydown', (event) => {
-                if (event.key === 'Escape') {
-                    closeAllPanels();
-                }
-            });
-        });
-    </script>
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+    <script src="script.js"></script>
 </body>
 </html>
 
