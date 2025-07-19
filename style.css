@@ -9,6 +9,9 @@
             --color-card-3: #F9DDA4; /* Golden Shore */
             --color-card-4: #D3E2C2; /* Forest Canopy Green */
             --color-card-5: #E2D1C2; /* Historic Earth Brown */
+            --color-card-6: #A9B4C2; /* Ancient Stone Grey */
+            --color-card-7: #D9C8B8; /* Riverbank Clay */
+            --color-card-8: #F2A4A4; /* Vibrant Market Red */
 
             --font-main: 'Poppins', sans-serif;
             --transition-curve: cubic-bezier(0.645, 0.045, 0.355, 1); /* Elegant ease-in-out */
@@ -116,6 +119,9 @@
         #card-shores { background: var(--color-card-3); z-index: 3; transform: translateY(40px) rotateZ(-4deg); --delay: 0.6s; --hover-rotate: -5deg; }
         #card-bijilo { background: var(--color-card-4); z-index: 2; transform: translateY(60px) rotateZ(2deg); --delay: 0.75s; --hover-rotate: 3deg; }
         #card-janjanbureh { background: var(--color-card-5); z-index: 1; transform: translateY(80px) rotateZ(-3deg); --delay: 0.9s; --hover-rotate: -4deg; }
+        #card-wassu { background: var(--color-card-6); z-index: 0; transform: translateY(100px) rotateZ(5deg); --delay: 1.05s; --hover-rotate: 6deg; }
+        #card-kunta { background: var(--color-card-7); z-index: -1; transform: translateY(120px) rotateZ(-5deg); --delay: 1.2s; --hover-rotate: -6deg; }
+        #card-albert { background: var(--color-card-8); z-index: -2; transform: translateY(140px) rotateZ(4deg); --delay: 1.35s; --hover-rotate: 5deg; }
 
         .card-content h2 {
             font-size: 2.2rem;

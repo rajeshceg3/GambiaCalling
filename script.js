@@ -11,7 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
         'detail-tanji': { coords: [13.3833, -16.7833], desc: 'Tanji Bird Reserve' },
         'detail-shores': { coords: [13.4667, -16.7167], desc: 'Golden Shores' },
         'detail-bijilo': { coords: [13.4167, -16.7333], desc: 'Bijilo Forest Park' },
-        'detail-janjanbureh': { coords: [13.5333, -14.7667], desc: 'Janjanbureh' }
+        'detail-janjanbureh': { coords: [13.5333, -14.7667], desc: 'Janjanbureh' },
+        'detail-wassu': { coords: [13.6833, -15.0333], desc: 'Wassu Stone Circles' },
+        'detail-kunta': { coords: [13.3167, -16.4833], desc: 'Kunta Kinteh Island' },
+        'detail-albert': { coords: [13.45, -16.5667], desc: 'Albert Market' }
     };
 
     function initMap(containerId, coords, description) {
