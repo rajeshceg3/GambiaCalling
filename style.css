@@ -181,19 +181,22 @@
         .detail-content {
             background: var(--color-background);
             width: 90%;
-            max-width: 900px;
+            max-width: 1100px; /* Increased max-width for larger screens */
             height: 80vh;
-            max-height: 600px;
+            max-height: 650px; /* Adjusted height */
             border-radius: 20px;
             box-shadow: 0 40px 100px rgba(0,0,0,0.1);
             display: grid;
-            grid-template-columns: 1.2fr 1fr;
+            grid-template-columns: 1fr 1.5fr; /* Gave more space to the visual/map column */
             padding: 50px;
             position: relative;
         }
 
         .detail-text {
-            padding-right: 40px;
+            padding-right: 50px; /* Increased padding for better spacing */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
         }
 
         .detail-text h1 {
@@ -216,7 +219,7 @@
             justify-content: center;
             align-items: center;
             overflow: hidden;
-            border-radius: 15px;
+            border-radius: 20px; /* Matching the card's border-radius */
         }
 
         .map-container {
