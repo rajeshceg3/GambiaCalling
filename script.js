@@ -59,13 +59,9 @@ document.addEventListener('DOMContentLoaded', () => {
             panel.classList.remove('active');
         });
 
-        // If a card was opened, remove it from the DOM after a delay
+        // If a card was opened, reset the reference to it so it can be opened again.
         if (lastOpenedCard) {
-            // The timeout provides a smoother visual effect, allowing the panel to fade out
-            setTimeout(() => {
-                lastOpenedCard.remove();
-                lastOpenedCard = null; // Reset for the next interaction
-            }, 500); // 500ms delay
+            lastOpenedCard = null;
         }
     }
 
