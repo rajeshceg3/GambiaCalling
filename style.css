@@ -1,317 +1,320 @@
-        /* --- Jony Ive Inspired Design System --- */
-        :root {
-            --color-background: #FDF8F0; /* Warm, sandy cream */
-            --color-text: #4A4A4A; /* Soft charcoal */
-            --color-shadow: rgba(74, 74, 74, 0.1);
+/* --- Jony Ive Aesthetic: The Ultimate Redesign --- */
 
-            --color-card-1: #B8C4BB; /* Baobab Green */
-            --color-card-2: #C2D8E2; /* River Sky Blue */
-            --color-card-3: #F9DDA4; /* Golden Shore */
-            --color-card-4: #D3E2C2; /* Forest Canopy Green */
-            --color-card-5: #E2D1C2; /* Historic Earth Brown */
-            --color-card-6: #A9B4C2; /* Ancient Stone Grey */
-            --color-card-7: #D9C8B8; /* Riverbank Clay */
-            --color-card-8: #F2A4A4; /* Vibrant Market Red */
+:root {
+    --bg-color: #F5F5F7;
+    --card-bg: #FFFFFF;
+    --text-primary: #1D1D1F;
+    --text-secondary: #86868B;
+    --accent-color: #0071E3; /* Classic Apple Blue, used sparingly */
 
-            --font-main: 'Poppins', sans-serif;
-            --transition-curve: cubic-bezier(0.645, 0.045, 0.355, 1); /* Elegant ease-in-out */
-        }
+    --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+    --font-display: 'Playfair Display', serif;
 
-        /* --- Base & Reset --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+    --bezier-smooth: cubic-bezier(0.32, 0.72, 0, 1);
+    --bezier-bounce: cubic-bezier(0.5, 1.3, 0.5, 1);
 
-        body {
-            font-family: var(--font-main);
-            background-color: var(--color-background);
-            color: var(--color-text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            overflow: auto; /* Restored for accessibility and usability */
+    --card-radius: 24px;
+    --card-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0,0,0,0.05);
+    --card-shadow-hover: 0 30px 60px -12px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0,0,0,0.05);
+}
 
-            /* The subtle geometric background pattern */
-            background-image:
-                radial-gradient(circle at center, rgba(255, 255, 255, 0.5), transparent 60%),
-                url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
-        }
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
-        /* --- Main App Container --- */
-        .app-container {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.8s var(--transition-curve);
-        }
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-ui);
+    -webkit-font-smoothing: antialiased;
+    overflow-x: hidden;
+}
 
-        .app-container.detail-view-active {
-            opacity: 0;
-            pointer-events: none;
-        }
+/* Background texture - extremely subtle noise */
+.app-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.4;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    pointer-events: none;
+}
 
-        /* --- Typography & Header --- */
-        .main-header {
-            text-align: center;
-            margin-bottom: 60px;
-            animation: fadeInDown 1.2s var(--transition-curve) forwards;
-            opacity: 0;
-        }
+/* --- Header --- */
+.app-header {
+    padding: 80px 40px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    text-align: center;
+    opacity: 0;
+    animation: fadeIn 1s var(--bezier-smooth) forwards;
+}
 
-        .main-header h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: 5px;
-            text-transform: uppercase;
-        }
+.header-inner h1 {
+    font-family: var(--font-display);
+    font-size: 4rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
 
-        .main-header p {
-            font-size: 1rem;
-            font-weight: 300;
-            letter-spacing: 2px;
-            margin-top: 10px;
-            opacity: 0.7;
-        }
+.subtitle {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    font-weight: 500;
+}
 
-        /* --- The Interactive Card Stack --- */
-        .attraction-stack {
-            position: relative;
-            width: 320px;
-            height: 450px;
-            perspective: 1500px;
-        }
+/* --- Gallery Grid --- */
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px;
+    padding: 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding-bottom: 100px;
+}
 
-        .attraction-card {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            border-radius: 20px;
-            padding: 40px;
-            cursor: pointer;
+/* --- Card Component --- */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--card-radius);
+    box-shadow: var(--card-shadow);
+    overflow: hidden;
+    position: relative;
+    cursor: pointer;
+    transition: transform 0.4s var(--bezier-smooth), box-shadow 0.4s var(--bezier-smooth);
+    display: flex;
+    flex-direction: column;
+    height: 400px; /* Fixed height for grid view */
+    opacity: 0;
+    animation: slideUp 0.8s var(--bezier-smooth) forwards;
+}
 
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-end;
+/* Staggered animation delays */
+.card:nth-child(1) { animation-delay: 0.1s; }
+.card:nth-child(2) { animation-delay: 0.2s; }
+.card:nth-child(3) { animation-delay: 0.3s; }
+.card:nth-child(4) { animation-delay: 0.4s; }
+.card:nth-child(5) { animation-delay: 0.5s; }
+.card:nth-child(6) { animation-delay: 0.6s; }
+.card:nth-child(7) { animation-delay: 0.7s; }
+.card:nth-child(8) { animation-delay: 0.8s; }
 
-            box-shadow: 0 20px 60px var(--color-shadow);
-            transform-style: preserve-3d;
-            transition: transform 0.8s var(--transition-curve), box-shadow 0.8s var(--transition-curve);
+.card:hover {
+    transform: translateY(-8px) scale(1.01);
+    box-shadow: var(--card-shadow-hover);
+}
 
-            animation: fadeInUp 1s var(--transition-curve) forwards;
-            animation-delay: var(--delay);
-            opacity: 0;
-        }
+/* Card Visual (Top half) */
+.card-visual {
+    height: 60%;
+    width: 100%;
+    position: relative;
+    overflow: hidden;
+}
 
-        .attraction-card:hover {
-            box-shadow: 0 35px 80px rgba(0,0,0,0.15);
-            transform: translateY(-15px) rotateZ(var(--hover-rotate, 0deg)) !important;
-        }
+.visual-placeholder {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: transform 0.6s var(--bezier-smooth);
+}
 
-        #card-kachikally { background: var(--color-card-1); z-index: 5; transform: rotateZ(-2deg); --delay: 0.3s; --hover-rotate: -3deg; }
-        #card-tanji { background: var(--color-card-2); z-index: 4; transform: translateY(20px) rotateZ(3deg); --delay: 0.45s; --hover-rotate: 4deg; }
-        #card-shores { background: var(--color-card-3); z-index: 3; transform: translateY(40px) rotateZ(-4deg); --delay: 0.6s; --hover-rotate: -5deg; }
-        #card-bijilo { background: var(--color-card-4); z-index: 2; transform: translateY(60px) rotateZ(2deg); --delay: 0.75s; --hover-rotate: 3deg; }
-        #card-janjanbureh { background: var(--color-card-5); z-index: 1; transform: translateY(80px) rotateZ(-3deg); --delay: 0.9s; --hover-rotate: -4deg; }
-        #card-wassu { background: var(--color-card-6); z-index: 0; transform: translateY(100px) rotateZ(5deg); --delay: 1.05s; --hover-rotate: 6deg; }
-        #card-kunta { background: var(--color-card-7); z-index: -1; transform: translateY(120px) rotateZ(-5deg); --delay: 1.2s; --hover-rotate: -6deg; }
-        #card-albert { background: var(--color-card-8); z-index: -2; transform: translateY(140px) rotateZ(4deg); --delay: 1.35s; --hover-rotate: 5deg; }
+.card:hover .visual-placeholder {
+    transform: scale(1.05);
+}
 
-        .card-content h2 {
-            font-size: 2.2rem;
-            font-weight: 700;
-            color: rgba(0,0,0,0.6);
-            line-height: 1.1;
-        }
+.card-icon {
+    width: 80px;
+    height: 80px;
+    opacity: 0.8;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+}
 
-        .card-content p {
-            font-weight: 500;
-            margin-top: 10px;
-            color: rgba(0,0,0,0.5);
-        }
+/* Card Content (Bottom half) */
+.card-content {
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    height: 40%;
+    background: var(--card-bg);
+    position: relative;
+    z-index: 2;
+}
 
-        .map-button {
-            background: rgba(0,0,0,0.1);
-            border: none;
-            border-radius: 10px;
-            color: rgba(0,0,0,0.6);
-            cursor: pointer;
-            font-family: var(--font-main);
-            font-size: 0.8rem;
-            margin-top: 20px;
-            padding: 10px 15px;
-            transition: background 0.3s;
-        }
+.card-header h2 {
+    font-family: var(--font-display);
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--text-primary);
+}
 
-        .map-button:hover {
-            background: rgba(0,0,0,0.2);
-        }
+.location-tag {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
 
-        /* --- The Detail View Panel --- */
-        .detail-panel {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
+/* Hidden elements in grid view */
+.card-body, .card-map-container, .close-button {
+    display: none;
+    opacity: 0;
+}
 
-            opacity: 0;
-            pointer-events: none;
-            transform: scale(0.95);
-            transition: opacity 0.8s var(--transition-curve), transform 0.8s var(--transition-curve);
+.prose {
+    font-family: var(--font-display); /* Ruskin Bond text deserves serif */
+    font-size: 1.35rem;
+    line-height: 1.8;
+    color: #333;
+    margin-top: 30px;
+}
 
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
+/* --- Expanded State (The "Detail" View) --- */
+.card.expanded {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+    border-radius: 0;
+    cursor: default;
+    overflow-y: auto; /* Allow scrolling content */
+    transform: none !important;
+    display: grid;
+    grid-template-columns: 40% 60%; /* Split view */
+    grid-template-rows: 100%;
+}
 
-        .detail-panel.active {
-            opacity: 1;
-            pointer-events: all;
-            transform: scale(1);
-            z-index: 100;
-        }
+.card.expanded .card-visual {
+    height: 100%; /* Full height sidebar */
+    position: sticky;
+    top: 0;
+}
 
-        .detail-content {
-            background: var(--color-background);
-            width: 90%;
-            max-width: 1100px; /* Increased max-width for larger screens */
-            height: 80vh;
-            max-height: 650px; /* Adjusted height */
-            border-radius: 20px;
-            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
-            display: grid;
-            grid-template-columns: 1fr 1.5fr; /* Gave more space to the visual/map column */
-            padding: 50px;
-            position: relative;
-        }
+.card.expanded .visual-placeholder {
+    transform: none; /* Reset hover effect */
+}
 
-        .detail-text {
-            padding-right: 50px; /* Increased padding for better spacing */
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-        }
+.card.expanded .card-icon {
+    width: 200px;
+    height: 200px;
+}
 
-        .detail-text h1 {
-            font-size: 3.5rem;
-            font-weight: 700;
-            letter-spacing: 2px;
-            margin-bottom: 20px;
-        }
+.card.expanded .card-content {
+    height: auto;
+    min-height: 100%;
+    padding: 80px;
+    overflow-y: auto;
+    display: block; /* Reset flex */
+}
 
-        .detail-text p {
-            font-size: 1rem;
-            line-height: 1.8;
-            font-weight: 300;
-        }
+.card.expanded .card-header h2 {
+    font-size: 3.5rem;
+    margin-bottom: 10px;
+}
 
-        /* --- CSS Geometric "Art" Shapes --- */
-        .detail-visual {
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            overflow: hidden;
-            border-radius: 20px; /* Matching the card's border-radius */
-        }
+.card.expanded .location-tag {
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    display: block;
+}
 
-        .map-container {
-            width: 100%;
-            height: 100%;
-        }
+.card.expanded .card-body {
+    display: block;
+    animation: fadeIn 0.8s 0.3s var(--bezier-smooth) forwards;
+}
 
-        .leaflet-tile-pane {
-            filter: grayscale(0.8);
-        }
+.card.expanded .card-map-container {
+    display: block;
+    width: 100%;
+    height: 300px;
+    background: #eee;
+    margin-top: 50px;
+    border-radius: 16px;
+    overflow: hidden;
+    opacity: 0;
+    animation: fadeIn 0.8s 0.5s var(--bezier-smooth) forwards;
+}
 
+.card.expanded .close-button {
+    display: flex;
+    position: fixed;
+    top: 30px;
+    right: 30px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: rgba(0,0,0,0.05);
+    border: none;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 1100;
+    opacity: 0;
+    animation: fadeIn 0.5s 0.8s var(--bezier-smooth) forwards;
+    transition: background 0.2s;
+    color: var(--text-primary);
+}
 
+.close-button:hover {
+    background: rgba(0,0,0,0.1);
+}
 
+/* --- Leaflet Map Customization --- */
+.leaflet-container {
+    font-family: var(--font-ui);
+}
 
+/* --- Animations --- */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
 
+@keyframes slideUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+}
 
-        /* --- Close Button --- */
-        .close-btn {
-            position: absolute;
-            top: 25px;
-            right: 25px;
-            width: 40px;
-            height: 40px;
-            background: rgba(0,0,0,0.05);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            transition: background 0.3s, transform 0.3s;
-        }
-        .close-btn:hover { background: rgba(0,0,0,0.1); transform: rotate(90deg); }
-        .close-btn::before, .close-btn::after {
-            content: ''; position: absolute; top: 50%; left: 50%;
-            width: 20px; height: 2px; background: var(--color-text);
-        }
-        .close-btn::before { transform: translate(-50%, -50%) rotate(45deg); }
-        .close-btn::after { transform: translate(-50%, -50%) rotate(-45deg); }
+/* --- Responsive Design --- */
+@media (max-width: 900px) {
+    .app-header h1 { font-size: 2.5rem; }
 
+    .card.expanded {
+        grid-template-columns: 1fr;
+        grid-template-rows: 40vh auto;
+    }
 
-        /* --- Keyframe Animations --- */
-        @keyframes fadeInDown {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes fadeInUp {
-            from { opacity: 0; transform: translateY(50px) rotateZ(var(--start-rotate, 0deg)); }
-            to { opacity: 1; transform: translateY(var(--end-translate, 0px)) rotateZ(var(--end-rotate, 0deg)); }
-        }
-        @keyframes spin {
-            from { transform: rotate(0deg); }
-            to { transform: rotate(360deg); }
-        }
-        @keyframes fly {
-            0% { transform: translateX(-100px) rotate(-20deg); }
-            50% { transform: translateX(100px) rotate(-20deg) translateY(-20px); }
-            100% { transform: translateX(-100px) rotate(-20deg); }
-        }
-        @keyframes wave {
-            0%, 100% { transform: translateY(-5px) skewX(-30deg); }
-            50% { transform: translateY(0px) skewX(-30deg); }
-        }
-        @keyframes sway {
-            0%, 100% { transform: rotate(10deg); }
-            50% { transform: rotate(-10deg); }
-        }
+    .card.expanded .card-visual {
+        height: 40vh;
+        position: relative;
+    }
 
-        /* --- Responsive Adjustments --- */
-        @media (max-width: 950px) {
-            .detail-content {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto 250px;
-                height: 90vh;
-                padding: 40px;
-            }
-            .detail-text { padding-right: 0; margin-bottom: 30px; }
-        }
+    .card.expanded .card-content {
+        padding: 40px 30px;
+    }
 
-        @media (max-width: 768px) {
-            .main-header h1 { font-size: 2.5rem; }
-            .attraction-stack { transform: scale(0.9); }
-            .detail-text h1 { font-size: 2.8rem; }
-            .detail-content { padding: 30px; }
-            .close-btn { top: 15px; right: 15px; }
-        }
+    .card.expanded .card-header h2 { font-size: 2.5rem; }
 
-        /* --- Accessibility: Reduced Motion --- */
-        @media (prefers-reduced-motion: reduce) {
-          *,
-          *::before,
-          *::after {
-            animation-duration: 0.01ms !important;
-            animation-iteration-count: 1 !important;
-            transition-duration: 0.01ms !important;
-            scroll-behavior: auto !important;
-          }
-        }
+    .card.expanded .close-button {
+        top: 20px;
+        right: 20px;
+        background: rgba(255,255,255,0.8);
+        backdrop-filter: blur(10px);
+    }
+}

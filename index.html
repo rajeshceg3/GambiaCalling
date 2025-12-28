@@ -3,196 +3,205 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Gambia: A Quiet Discovery</title>
+    <title>Gambia: A Visual Journey</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div class="app-container" id="app-container">
-        <header class="main-header">
-            <h1>Gambia</h1>
-            <p>A QUIET DISCOVERY</p>
-        </header>
+    <div class="app-background"></div>
 
-        <main class="attraction-stack">
-            <div class="attraction-card" id="card-kachikally" data-target="detail-kachikally">
-                <div class="card-content">
-                    <h2>The Sacred Pool</h2>
-                    <p>Kachikally</p>
-                    <button class="map-button">View on Map</button>
-                </div>
-            </div>
-            <div class="attraction-card" id="card-tanji" data-target="detail-tanji">
-                <div class="card-content">
-                    <h2>The Avian Dance</h2>
-                    <p>Tanji Bird Reserve</p>
-                    <button class="map-button">View on Map</button>
-                </div>
-            </div>
-            <div class="attraction-card" id="card-shores" data-target="detail-shores">
-                <div class="card-content">
-                    <h2>The Golden Shores</h2>
-                    <p>Coastal Beaches</p>
-                    <button class="map-button">View on Map</button>
-                </div>
-            </div>
-            <div class="attraction-card" id="card-bijilo" data-target="detail-bijilo">
-                <div class="card-content">
-                    <h2>The Whispering Woods</h2>
-                    <p>Bijilo Forest Park</p>
-                    <button class="map-button">View on Map</button>
-                </div>
-            </div>
-            <div class="attraction-card" id="card-janjanbureh" data-target="detail-janjanbureh">
-                <div class="card-content">
-                    <h2>A Step Back in Time</h2>
-                    <p>Janjanbureh</p>
-                    <button class="map-button">View on Map</button>
-                </div>
-            </div>
-            <div class="attraction-card" id="card-wassu" data-target="detail-wassu">
-                <div class="card-content">
-                    <h2>The Ancient Circles</h2>
-                    <p>Wassu Stone Circles</p>
-                    <button class="map-button">View on Map</button>
-                </div>
-            </div>
-            <div class="attraction-card" id="card-kunta" data-target="detail-kunta">
-                <div class="card-content">
-                    <h2>The Echoes of History</h2>
-                    <p>Kunta Kinteh Island</p>
-                    <button class="map-button">View on Map</button>
-                </div>
-            </div>
-            <div class="attraction-card" id="card-albert" data-target="detail-albert">
-                <div class="card-content">
-                    <h2>The Vibrant Heart</h2>
-                    <p>Albert Market</p>
-                    <button class="map-button">View on Map</button>
-                </div>
-            </div>
-        </main>
-    </div>
-
-    <!-- Detail Panels (Hidden by default) -->
-    <section class="detail-panel" id="detail-kachikally" data-visual="kachikally">
-        <div class="detail-content">
-            <button class="close-btn" aria-label="Close details"></button>
-            <div class="detail-text">
-                <h2>Kachikally</h2>
-                <p>Home to a sacred crocodile pool, Kachikally is a place of myth and tranquility. Generations have come to witness the serene reptiles, believed to hold healing powers. The atmosphere is thick with history, a quiet reverence shared between man and beast.</p>
-            </div>
-                <div class="detail-visual">
-                    <object type="image/svg+xml" data="crocodile.svg" width="200" height="100" role="img" aria-label="Illustration of a crocodile."></object>
-                    <div id="map-kachikally" class="map-container"></div>
-                </div>
+    <header class="app-header">
+        <div class="header-inner">
+            <h1>The Gambia</h1>
+            <span class="subtitle">A quiet discovery</span>
         </div>
-    </section>
+    </header>
 
-    <section class="detail-panel" id="detail-wassu" data-visual="wassu">
-        <div class="detail-content">
-            <button class="close-btn" aria-label="Close details"></button>
-            <div class="detail-text">
-                <h2>Wassu Stone Circles</h2>
-                <p>These ancient megaliths, dating back centuries, are a UNESCO World Heritage site. Each stone, heavy with mystery, is part of a silent, stoic assembly in the heart of the country. Their purpose remains a subject of fascination and scholarly debate.</p>
-            </div>
-            <div class="detail-visual">
-                <object type="image/svg+xml" data="wassu.svg" width="400" height="200" role="img" aria-label="Illustration of the Wassu Stone Circles."></object>
-                <div id="map-wassu" class="map-container"></div>
-            </div>
-        </div>
-    </section>
+    <main class="gallery-container">
 
-    <section class="detail-panel" id="detail-kunta" data-visual="kunta">
-        <div class="detail-content">
-            <button class="close-btn" aria-label="Close details"></button>
-            <div class="detail-text">
-                <h2>Kunta Kinteh Island</h2>
-                <p>Formerly James Island, this site is a poignant reminder of the slave trade. Its ruins whisper tales of resistance and survival. A visit here is a powerful journey into the history that has shaped so much of the world, anchored by the iconic figure of Kunta Kinteh.</p>
-            </div>
-            <div class="detail-visual">
-                <object type="image/svg+xml" data="kunta-kinteh.svg" width="400" height="200" role="img" aria-label="Illustration of Kunta Kinteh Island."></object>
-                <div id="map-kunta" class="map-container"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="detail-panel" id="detail-albert" data-visual="albert">
-        <div class="detail-content">
-            <button class="close-btn" aria-label="Close details"></button>
-            <div class="detail-text">
-                <h2>Albert Market</h2>
-                <p>Located in the capital, Banjul, Albert Market is a bustling, sensory explosion of colors, sounds, and scents. From vibrant textiles and handcrafted goods to exotic spices and fresh produce, it is the commercial and cultural heartbeat of the city.</p>
-            </div>
-            <div class="detail-visual">
-                <object type="image/svg+xml" data="albert-market.svg" width="400" height="200" role="img" aria-label="Illustration of a vibrant scene at Albert Market."></object>
-                <div id="map-albert" class="map-container"></div>
-            </div>
-        </div>
-    </section>
-
-    <section class="detail-panel" id="detail-bijilo" data-visual="bijilo">
-        <div class="detail-content">
-            <button class="close-btn" aria-label="Close details"></button>
-            <div class="detail-text">
-                <h2>Bijilo Forest</h2>
-                <p>A protected woodland reserve, Bijilo is a sanctuary for green vervet monkeys and a rich variety of birdlife. The canopied trails offer a cool escape, where the sounds of the forest replace the city's hum. It’s a vital green lung and a haven for nature lovers.</p>
-            </div>
-                <div class="detail-visual">
-                    <object type="image/svg+xml" data="forest.svg" width="400" height="200" role="img" aria-label="Illustration of a lush forest."></object>
-                    <div id="map-bijilo" class="map-container"></div>
+        <!-- Kachikally -->
+        <article class="card" id="card-kachikally" data-lat="13.4533" data-lng="-16.6694">
+            <div class="card-visual">
+                <div class="visual-placeholder" style="background-color: #8fa89b;">
+                   <img src="crocodile.svg" alt="Crocodile icon" class="card-icon">
                 </div>
-        </div>
-    </section>
-
-    <section class="detail-panel" id="detail-janjanbureh" data-visual="janjanbureh">
-        <div class="detail-content">
-            <button class="close-btn" aria-label="Close details"></button>
-            <div class="detail-text">
-                <h2>Janjanbureh</h2>
-                <p>Located on an island in the Gambia River, Janjanbureh (formerly Georgetown) is a historic settlement with roots in the colonial era. Its quiet streets and weathered buildings tell stories of a complex past, offering a profound glimpse into the nation's history.</p>
             </div>
-                <div class="detail-visual">
-                    <object type="image/svg+xml" data="janjanbureh.svg" width="400" height="200" role="img" aria-label="Illustration of historic buildings in Janjanbureh."></object>
-                    <div id="map-janjanbureh" class="map-container"></div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h2>The Silent Pool</h2>
+                    <p class="location-tag">Kachikally</p>
                 </div>
-        </div>
-    </section>
-
-    <section class="detail-panel" id="detail-tanji" data-visual="tanji">
-        <div class="detail-content">
-            <button class="close-btn" aria-label="Close details"></button>
-            <div class="detail-text">
-                <h2>Tanji Reserve</h2>
-                <p>The sky over the Tanji River is a canvas for hundreds of bird species. It's a world-renowned reserve where the air hums with calls and the flutter of wings. From vibrant sunbirds to majestic ospreys, it is a symphony of nature in perpetual motion.</p>
+                <div class="card-body">
+                    <p class="prose">It is a place where time seems to hold its breath. The green water, thick with secrets and duckweed, is home to the ancient ones. They lie still, like logs of driftwood carved by a forgotten hand, watching the world with unblinking, golden eyes. There is a hush here, a reverence that hangs in the humid air, broken only by the rustle of leaves and the soft murmur of those who come seeking blessings. It is a strange, gentle harmony between man and beast, a truce written in the water.</p>
+                </div>
+                <div class="card-map-container" id="map-kachikally"></div>
+                <button class="close-button" aria-label="Close card">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
             </div>
-                <div class="detail-visual">
-                    <object type="image/svg+xml" data="bird.svg" width="100" height="100" role="img" aria-label="Illustration of a colorful bird in flight."></object>
-                    <div id="map-tanji" class="map-container"></div>
-                </div>
-        </div>
-    </section>
+        </article>
 
-    <section class="detail-panel" id="detail-shores" data-visual="shores">
-        <div class="detail-content">
-            <button class="close-btn" aria-label="Close details"></button>
-            <div class="detail-text">
-                <h2>Golden Shores</h2>
-                <p>The coastline of Gambia is a stretch of unspoiled, golden sand meeting the gentle Atlantic. Life here moves at the pace of the tides. Fishing pirogues paint the horizon at dawn, and the setting sun melts into the ocean, leaving a sky of pastel fire.</p>
-            </div>
-                <div class="detail-visual">
-                    <object type="image/svg+xml" data="shores.svg" width="400" height="200" role="img" aria-label="Illustration of a peaceful beach shore."></object>
-                    <div id="map-shores" class="map-container"></div>
+        <!-- Tanji -->
+        <article class="card" id="card-tanji" data-lat="13.3833" data-lng="-16.7833">
+            <div class="card-visual">
+                <div class="visual-placeholder" style="background-color: #a8c0d6;">
+                    <img src="bird.svg" alt="Bird icon" class="card-icon">
                 </div>
-        </div>
-    </section>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h2>Wings Over Water</h2>
+                    <p class="location-tag">Tanji Bird Reserve</p>
+                </div>
+                <div class="card-body">
+                    <p class="prose">The sky here is never empty. It is a living canvas of motion, painted with the strokes of a thousand wings. The air smells of salt and drying fish, a pungent, honest scent. As the sun dips low, the boats return, colourful wooden shells bobbing on the tide, and above them, the gulls scream their welcome. It is chaotic, yes, but there is a rhythm to it—the beat of the ocean, the cry of the osprey, the endless dance of survival and abundance.</p>
+                </div>
+                <div class="card-map-container" id="map-tanji"></div>
+                <button class="close-button" aria-label="Close card">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </article>
+
+        <!-- Shores -->
+        <article class="card" id="card-shores" data-lat="13.4667" data-lng="-16.7167">
+            <div class="card-visual">
+                <div class="visual-placeholder" style="background-color: #e6dcc8;">
+                    <img src="shores.svg" alt="Shores icon" class="card-icon">
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h2>The Golden Edge</h2>
+                    <p class="location-tag">Atlantic Coast</p>
+                </div>
+                <div class="card-body">
+                    <p class="prose">The Atlantic meets the land here not with a crash, but with a long, rolling sigh. The sand is the colour of brown sugar, warm underfoot, stretching out until it blurs into the sea mist. Mornings are for the fishermen, hauling in their silver catch; evenings are for the solitary walker. There is a profound loneliness to the coast, but it is a good kind of loneliness—the kind that lets you hear your own thoughts against the vast, indifferent backdrop of the ocean.</p>
+                </div>
+                <div class="card-map-container" id="map-shores"></div>
+                <button class="close-button" aria-label="Close card">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </article>
+
+        <!-- Bijilo -->
+        <article class="card" id="card-bijilo" data-lat="13.4167" data-lng="-16.7333">
+            <div class="card-visual">
+                <div class="visual-placeholder" style="background-color: #6b8c6b;">
+                    <img src="forest.svg" alt="Forest icon" class="card-icon">
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h2>Whispers in the Green</h2>
+                    <p class="location-tag">Bijilo Forest Park</p>
+                </div>
+                <div class="card-body">
+                    <p class="prose">Step off the hot tarmac and into the cool, dappled embrace of the forest. The light here is filtered through layers of mahogany and palm, painting the ground in shifting patterns of gold and shadow. It is a world of small noises: the snap of a twig, the rustle of a lizard, and the cheeky chatter of the vervet monkeys who watch you from the branches like curious children. It is a breathing space, a green lung where the city's hurry is forgotten.</p>
+                </div>
+                <div class="card-map-container" id="map-bijilo"></div>
+                <button class="close-button" aria-label="Close card">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </article>
+
+        <!-- Wassu -->
+        <article class="card" id="card-wassu" data-lat="13.6833" data-lng="-15.0333">
+            <div class="card-visual">
+                <div class="visual-placeholder" style="background-color: #b5a494;">
+                    <img src="wassu.svg" alt="Stones icon" class="card-icon">
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h2>Guardians of the Plains</h2>
+                    <p class="location-tag">Wassu Stone Circles</p>
+                </div>
+                <div class="card-body">
+                    <p class="prose">They stand in the open fields, red-brown sentinels against the blue sky. These laterite pillars have watched the centuries turn, silent and stoic. Who placed them here? Why? The wind blows through the grass, whispering answers that we cannot quite understand. To touch the rough stone is to touch a mystery, to feel the heat of a thousand suns stored within. They are the earth's memory, solidified and standing guard over the bones of kings.</p>
+                </div>
+                <div class="card-map-container" id="map-wassu"></div>
+                <button class="close-button" aria-label="Close card">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </article>
+
+        <!-- Kunta Kinteh -->
+        <article class="card" id="card-kunta" data-lat="13.3167" data-lng="-16.4833">
+            <div class="card-visual">
+                <div class="visual-placeholder" style="background-color: #c9b1a3;">
+                    <img src="kunta-kinteh.svg" alt="Island icon" class="card-icon">
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h2>The Memory of Water</h2>
+                    <p class="location-tag">Kunta Kinteh Island</p>
+                </div>
+                <div class="card-body">
+                    <p class="prose">The river eats away at the island, year by year, as if trying to wash away the pain etched into its soil. The ruins stand like jagged teeth, biting into the sky. It is a place of heavy stillness, where the weight of history presses down on your chest. You can almost hear the clinking of chains in the lapping of the water. Yet, in its decay, there is a powerful dignity—a reminder that the spirit, like the river, flows on, enduring everything.</p>
+                </div>
+                <div class="card-map-container" id="map-kunta"></div>
+                <button class="close-button" aria-label="Close card">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </article>
+
+         <!-- Albert Market -->
+         <article class="card" id="card-albert" data-lat="13.45" data-lng="-16.5667">
+            <div class="card-visual">
+                <div class="visual-placeholder" style="background-color: #d68f8f;">
+                    <img src="albert-market.svg" alt="Market icon" class="card-icon">
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h2>The Pulse of Banjul</h2>
+                    <p class="location-tag">Albert Market</p>
+                </div>
+                <div class="card-body">
+                    <p class="prose">It is a riot of the senses. The air is thick with the scent of spices—cumin, pepper, dried fish—and the sweet rot of overripe mangoes. Colours clash and sing: the bright patterns of wax prints, the shine of silver jewelry, the deep red of tomatoes. It is a labyrinth of voices, a constant hum of bargaining, greeting, and laughing. This is the heart of the city, beating fast, loud, and undeniably alive.</p>
+                </div>
+                <div class="card-map-container" id="map-albert"></div>
+                <button class="close-button" aria-label="Close card">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </article>
+
+         <!-- Janjanbureh -->
+         <article class="card" id="card-janjanbureh" data-lat="13.5333" data-lng="-14.7667">
+            <div class="card-visual">
+                <div class="visual-placeholder" style="background-color: #a69e8f;">
+                    <img src="janjanbureh.svg" alt="Building icon" class="card-icon">
+                </div>
+            </div>
+            <div class="card-content">
+                <div class="card-header">
+                    <h2>Echoes of the River</h2>
+                    <p class="location-tag">Janjanbureh</p>
+                </div>
+                <div class="card-body">
+                    <p class="prose">Far up the river, the world slows down. The colonial buildings, with their peeling paint and shuttered windows, dream of a busier time. Now, they are content to sit in the shade of the great trees. The silence here is different—it is the silence of an island, separated from the mainland's dust and noise. The river flows on both sides, a constant, silver ribbon binding the town to its past and its future.</p>
+                </div>
+                <div class="card-map-container" id="map-janjanbureh"></div>
+                <button class="close-button" aria-label="Close card">
+                     <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"></line><line x1="6" y1="6" x2="18" y2="18"></line></svg>
+                </button>
+            </div>
+        </article>
+
+    </main>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
     <script src="script.js"></script>
 </body>
 </html>
-
