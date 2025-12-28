@@ -32,7 +32,13 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- Open Detail View ---
     attractionCards.forEach(card => {
-        card.addEventListener('click', () => {
+        // Accessibility: Make card interactive
+        card.setAttribute('tabindex', '0');
+        card.setAttribute('role', 'button');
+        const innerBtn = card.querySelector('.map-button');
+        if (innerBtn) { innerBtn.setAttribute('tabindex', '-1'); innerBtn.setAttribute('aria-hidden', 'true'); }
+
+        const openPanel = () => {
             const targetId = card.getAttribute('data-target');
             const targetPanel = document.getElementById(targetId);
 
@@ -40,6 +46,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 lastOpenedCard = card;
                 appContainer.classList.add('detail-view-active');
                 targetPanel.classList.add('active');
+                // Focus Management: Move focus to close button
+                setTimeout(() => targetPanel.querySelector('.close-btn')?.focus(), 100);
 
                 const location = locations[targetId];
                 if (location) {
@@ -49,6 +57,11 @@ document.addEventListener('DOMContentLoaded', () => {
                     }, 400); // Delay to allow panel transition
                 }
             }
+        };
+
+        card.addEventListener('click', openPanel);
+        card.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openPanel(); }
         });
     });
 
@@ -59,8 +72,9 @@ document.addEventListener('DOMContentLoaded', () => {
             panel.classList.remove('active');
         });
 
-        // If a card was opened, reset the reference to it so it can be opened again.
+        // Focus Management: Return focus to the card
         if (lastOpenedCard) {
+            lastOpenedCard.focus();
             lastOpenedCard = null;
         }
     }

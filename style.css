@@ -109,9 +109,12 @@
             opacity: 0;
         }
 
-        .attraction-card:hover {
+        .attraction-card:hover,
+        .attraction-card:focus-visible {
             box-shadow: 0 35px 80px rgba(0,0,0,0.15);
             transform: translateY(-15px) rotateZ(var(--hover-rotate, 0deg)) !important;
+            outline: 3px solid var(--color-text); /* Visible focus indicator */
+            outline-offset: 4px;
         }
 
         #card-kachikally { background: var(--color-card-1); z-index: 5; transform: rotateZ(-2deg); --delay: 0.3s; --hover-rotate: -3deg; }
