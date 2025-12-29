@@ -17,6 +17,14 @@ document.addEventListener('DOMContentLoaded', () => {
             expandCard(card);
         });
 
+        // Add keyboard support for card expansion
+        card.addEventListener('keydown', (e) => {
+            if ((e.key === 'Enter' || e.key === ' ') && !activeCard) {
+                e.preventDefault();
+                expandCard(card);
+            }
+        });
+
         const closeBtn = card.querySelector('.close-button');
         closeBtn.addEventListener('click', (e) => {
             e.stopPropagation(); // Stop event bubbling
@@ -29,6 +37,7 @@ document.addEventListener('DOMContentLoaded', () => {
         document.body.style.overflow = 'hidden'; // Lock body scroll
 
         activeCard = card;
+        card.setAttribute('aria-expanded', 'true');
 
         // Add a placeholder to keep the grid layout intact (optional, but good for polish)
         // For now, we just expand the card. Since it becomes position:fixed, it pops out of flow.
@@ -36,6 +45,12 @@ document.addEventListener('DOMContentLoaded', () => {
         // covering them up is also a valid interaction pattern.
 
         card.classList.add('expanded');
+
+        // Move focus to close button for accessibility
+        const closeBtn = card.querySelector('.close-button');
+        setTimeout(() => {
+            if (closeBtn) closeBtn.focus();
+        }, 100); // Small delay to allow transition to start/display change
 
         // Initialize Map after transition (delay to match CSS)
         setTimeout(() => {
@@ -52,7 +67,11 @@ document.addEventListener('DOMContentLoaded', () => {
     function collapseCard(card) {
         document.body.style.overflow = ''; // Unlock body scroll
         card.classList.remove('expanded');
+        card.setAttribute('aria-expanded', 'false');
         activeCard = null;
+
+        // Return focus to the card
+        card.focus();
 
         // Destroy map to save resources and avoid ID conflicts
         if (map) {
