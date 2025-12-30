@@ -10,6 +10,30 @@ document.addEventListener('DOMContentLoaded', () => {
     // For this "Jony Ive" level request, I'll implement a simplified but smooth expansion.
 
     cards.forEach(card => {
+        // Palette: Enhance accessibility
+        // Ensure screen readers announce concise names by linking to title and location
+        const title = card.querySelector('h2');
+        const location = card.querySelector('.location-tag');
+
+        if (title && location) {
+            // Ensure unique IDs exist
+            if (!title.id) title.id = `${card.id}-title`;
+            if (!location.id) location.id = `${card.id}-location`;
+
+            card.setAttribute('aria-labelledby', `${title.id} ${location.id}`);
+        }
+
+        const closeBtn = card.querySelector('.close-button');
+        if (closeBtn) {
+            // Add tooltip for mouse users
+            closeBtn.setAttribute('title', 'Close card');
+
+            closeBtn.addEventListener('click', (e) => {
+                e.stopPropagation(); // Stop event bubbling
+                collapseCard(card);
+            });
+        }
+
         card.addEventListener('click', (e) => {
             // Prevent clicking if already expanding or if clicking the close button
             if (activeCard || e.target.closest('.close-button')) return;
@@ -23,12 +47,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 e.preventDefault();
                 expandCard(card);
             }
-        });
-
-        const closeBtn = card.querySelector('.close-button');
-        closeBtn.addEventListener('click', (e) => {
-            e.stopPropagation(); // Stop event bubbling
-            collapseCard(card);
         });
     });
 
