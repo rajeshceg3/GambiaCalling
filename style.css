@@ -280,6 +280,10 @@ body {
     background: rgba(0,0,0,0.1);
 }
 
+.close-button:active {
+    transform: scale(0.92);
+}
+
 /* --- Leaflet Map Customization --- */
 .leaflet-container {
     font-family: var(--font-ui);
@@ -332,4 +336,22 @@ body {
 .close-button:focus-visible {
     outline: 2px solid var(--accent-color);
     outline-offset: 2px;
+}
+
+/* --- Accessibility: Reduced Motion --- */
+@media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    .card:hover {
+        transform: none;
+    }
+
+    .card:not(.expanded):active {
+        transform: none;
+    }
 }

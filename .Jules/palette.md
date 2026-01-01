@@ -9,3 +9,7 @@
 ## 2025-12-31 - Color Contrast in Light Themes
 **Learning:** In "clean" or Apple-inspired light themes, secondary text colors often fail WCAG AA contrast ratios (e.g. `#86868B` on white is ~3.6:1), compromising readability for many users.
 **Action:** Use slightly darker greys (e.g. `#6E6E73` ~5.1:1) that maintain the visual hierarchy while ensuring accessibility. "Invisible" design must still be visible.
+
+## 2025-01-20 - Respecting Motion Sensitivity
+**Learning:** High-fidelity animations (like FLIP or large transforms) can trigger vestibular disorders. "Delight" for one user is "dizziness" for another.
+**Action:** Always include a `@media (prefers-reduced-motion: reduce)` block that disables or significantly speeds up transitions and animations.
