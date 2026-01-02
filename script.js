@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // visual change, but we need to manage the scroll position and "fake" the transition if we want it pixel-perfect.
     // For this "Jony Ive" level request, I'll implement a simplified but smooth expansion.
 
-    cards.forEach(card => {
+    cards.forEach((card) => {
         // Palette: Enhance accessibility
         // Ensure screen readers announce concise names by linking to title and location
         const title = card.querySelector('h2');
@@ -70,6 +70,31 @@ document.addEventListener('DOMContentLoaded', () => {
             if (closeBtn) closeBtn.focus();
         }, 100); // Small delay to allow transition to start/display change
 
+        // Trap Focus Logic
+        const focusableElements = card.querySelectorAll(
+            'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
+        );
+        const firstElement = focusableElements[0];
+        const lastElement = focusableElements[focusableElements.length - 1];
+
+        card.addEventListener('keydown', function (e) {
+            if (e.key === 'Tab') {
+                if (e.shiftKey) {
+                    /* shift + tab */
+                    if (document.activeElement === firstElement) {
+                        e.preventDefault();
+                        lastElement.focus();
+                    }
+                } else {
+                    /* tab */
+                    if (document.activeElement === lastElement) {
+                        e.preventDefault();
+                        firstElement.focus();
+                    }
+                }
+            }
+        });
+
         // Initialize Map after transition (delay to match CSS)
         setTimeout(() => {
             const lat = card.getAttribute('data-lat');
@@ -110,13 +135,14 @@ document.addEventListener('DOMContentLoaded', () => {
         // Custom minimal style (using CartoDB Voyager for a cleaner look)
         map = L.map(containerId, {
             zoomControl: false,
-            attributionControl: false
+            attributionControl: false,
         }).setView(coords, 13);
 
         L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-            attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
+            attribution:
+                '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>',
             subdomains: 'abcd',
-            maxZoom: 20
+            maxZoom: 20,
         }).addTo(map);
 
         // Custom minimalist marker
@@ -124,7 +150,7 @@ document.addEventListener('DOMContentLoaded', () => {
             className: 'custom-pin',
             html: `<div style="width: 20px; height: 20px; background-color: #0071E3; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 10px rgba(0,0,0,0.3);"></div>`,
             iconSize: [20, 20],
-            iconAnchor: [10, 10]
+            iconAnchor: [10, 10],
         });
 
         L.marker(coords, { icon: customIcon }).addTo(map);

@@ -1,11 +1,11 @@
 /* --- Jony Ive Aesthetic: The Ultimate Redesign --- */
 
 :root {
-    --bg-color: #F5F5F7;
-    --card-bg: #FFFFFF;
-    --text-primary: #1D1D1F;
-    --text-secondary: #6E6E73; /* Darkened for WCAG AA compliance (4.5:1+) */
-    --accent-color: #0071E3; /* Classic Apple Blue, used sparingly */
+    --bg-color: #f5f5f7;
+    --card-bg: #ffffff;
+    --text-primary: #1d1d1f;
+    --text-secondary: #6e6e73; /* Darkened for WCAG AA compliance (4.5:1+) */
+    --accent-color: #0071e3; /* Classic Apple Blue, used sparingly */
 
     --font-ui: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
     --font-display: 'Playfair Display', serif;
@@ -14,8 +14,8 @@
     --bezier-bounce: cubic-bezier(0.5, 1.3, 0.5, 1);
 
     --card-radius: 24px;
-    --card-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0,0,0,0.05);
-    --card-shadow-hover: 0 30px 60px -12px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0,0,0,0.05);
+    --card-shadow: 0 18px 40px -10px rgba(0, 0, 0, 0.08), 0 0 1px rgba(0, 0, 0, 0.05);
+    --card-shadow-hover: 0 30px 60px -12px rgba(0, 0, 0, 0.12), 0 0 1px rgba(0, 0, 0, 0.05);
 }
 
 * {
@@ -91,7 +91,9 @@ body {
     overflow: hidden;
     position: relative;
     cursor: pointer;
-    transition: transform 0.4s var(--bezier-smooth), box-shadow 0.4s var(--bezier-smooth);
+    transition:
+        transform 0.4s var(--bezier-smooth),
+        box-shadow 0.4s var(--bezier-smooth);
     display: flex;
     flex-direction: column;
     height: 400px; /* Fixed height for grid view */
@@ -100,14 +102,30 @@ body {
 }
 
 /* Staggered animation delays */
-.card:nth-child(1) { animation-delay: 0.1s; }
-.card:nth-child(2) { animation-delay: 0.2s; }
-.card:nth-child(3) { animation-delay: 0.3s; }
-.card:nth-child(4) { animation-delay: 0.4s; }
-.card:nth-child(5) { animation-delay: 0.5s; }
-.card:nth-child(6) { animation-delay: 0.6s; }
-.card:nth-child(7) { animation-delay: 0.7s; }
-.card:nth-child(8) { animation-delay: 0.8s; }
+.card:nth-child(1) {
+    animation-delay: 0.1s;
+}
+.card:nth-child(2) {
+    animation-delay: 0.2s;
+}
+.card:nth-child(3) {
+    animation-delay: 0.3s;
+}
+.card:nth-child(4) {
+    animation-delay: 0.4s;
+}
+.card:nth-child(5) {
+    animation-delay: 0.5s;
+}
+.card:nth-child(6) {
+    animation-delay: 0.6s;
+}
+.card:nth-child(7) {
+    animation-delay: 0.7s;
+}
+.card:nth-child(8) {
+    animation-delay: 0.8s;
+}
 
 .card:hover {
     transform: translateY(-8px) scale(1.01);
@@ -144,7 +162,7 @@ body {
     width: 80px;
     height: 80px;
     opacity: 0.8;
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 /* Card Content (Bottom half) */
@@ -175,7 +193,9 @@ body {
 }
 
 /* Hidden elements in grid view */
-.card-body, .card-map-container, .close-button {
+.card-body,
+.card-map-container,
+.close-button {
     display: none;
     opacity: 0;
 }
@@ -264,7 +284,7 @@ body {
     width: 50px;
     height: 50px;
     border-radius: 50%;
-    background: rgba(0,0,0,0.05);
+    background: rgba(0, 0, 0, 0.05);
     border: none;
     align-items: center;
     justify-content: center;
@@ -277,7 +297,7 @@ body {
 }
 
 .close-button:hover {
-    background: rgba(0,0,0,0.1);
+    background: rgba(0, 0, 0, 0.1);
 }
 
 .close-button:active {
@@ -291,18 +311,30 @@ body {
 
 /* --- Animations --- */
 @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 @keyframes slideUp {
-    from { opacity: 0; transform: translateY(30px); }
-    to { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* --- Responsive Design --- */
 @media (max-width: 900px) {
-    .app-header h1 { font-size: 2.5rem; }
+    .app-header h1 {
+        font-size: 2.5rem;
+    }
 
     .card.expanded {
         grid-template-columns: 1fr;
@@ -318,12 +350,14 @@ body {
         padding: 40px 30px;
     }
 
-    .card.expanded .card-header h2 { font-size: 2.5rem; }
+    .card.expanded .card-header h2 {
+        font-size: 2.5rem;
+    }
 
     .card.expanded .close-button {
         top: 20px;
         right: 20px;
-        background: rgba(255,255,255,0.8);
+        background: rgba(255, 255, 255, 0.8);
         backdrop-filter: blur(10px);
     }
 }
@@ -340,7 +374,9 @@ body {
 
 /* --- Accessibility: Reduced Motion --- */
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
@@ -368,12 +404,14 @@ body {
     font-family: var(--font-ui);
     font-weight: 500;
     border-radius: 99px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
     text-decoration: none;
     opacity: 0;
     pointer-events: none;
     transform: translateY(-100%);
-    transition: transform 0.3s var(--bezier-smooth), opacity 0.3s;
+    transition:
+        transform 0.3s var(--bezier-smooth),
+        opacity 0.3s;
 }
 
 .skip-to-content:focus {

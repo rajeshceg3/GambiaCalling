@@ -1,0 +1,24 @@
+{
+    "name": "app",
+    "version": "1.0.0",
+  "description": "Gambia: A Visual Journey",
+    "main": "index.js",
+  "type": "module",
+    "scripts": {
+    "test": "playwright test",
+    "lint": "eslint .",
+    "format": "prettier --write ."
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "packageManager": "pnpm@10.20.0",
+    "devDependencies": {
+        "@axe-core/playwright": "^4.11.0",
+        "@eslint/js": "^9.39.2",
+        "@playwright/test": "^1.57.0",
+        "eslint": "^9.39.2",
+        "globals": "^17.0.0",
+        "prettier": "^3.7.4"
+    }
+}
