@@ -1,13 +1,13 @@
 {
     "name": "app",
     "version": "1.0.0",
-  "description": "Gambia: A Visual Journey",
+    "description": "Gambia: A Visual Journey",
     "main": "index.js",
-  "type": "module",
+    "type": "module",
     "scripts": {
-    "test": "playwright test",
-    "lint": "eslint .",
-    "format": "prettier --write ."
+        "test": "playwright test",
+        "lint": "eslint .",
+        "format": "prettier --write ."
     },
     "keywords": [],
     "author": "",
