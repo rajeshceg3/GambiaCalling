@@ -2,12 +2,12 @@
     /* --- Pastel Color Palette --- */
     /* Backgrounds */
     --bg-color: #fdfcf8; /* Warm off-white */
-    --card-bg: rgba(255, 255, 255, 0.95); /* Increased opacity for better contrast handling */
+    --card-bg: #ffffff; /* Solid white for maximum contrast reliability */
     --card-bg-hover: #ffffff;
 
     /* Text - High Contrast */
-    --text-primary: #1a252f; /* Darker than before */
-    --text-secondary: #4a5568; /* Darker grey */
+    --text-primary: #000000; /* Absolute Black for WCAG AAA */
+    --text-secondary: #2d3748; /* Very dark grey */
 
     /* Accents (Pastel - Backgrounds) */
     --pastel-green: #e8f8f5;
@@ -20,14 +20,14 @@
     --pastel-purple: #f4ecf7;
 
     /* Accents (Vibrant - Text/Icons - WCAG AA Compliant on White) */
-    --accent-green: #278a73; /* Darkened */
-    --accent-blue: #2874a6; /* Darkened */
-    --accent-yellow: #b7950b; /* Dark Gold */
-    --accent-forest: #1e8449; /* Dark Green */
-    --accent-brown: #a04000; /* Dark Brown */
-    --accent-red: #b03a2e; /* Dark Red */
-    --accent-grey: #566573; /* Dark Grey */
-    --accent-purple: #884ea0; /* Dark Purple */
+    --accent-green: #1a5c4d; /* Extra Darkened */
+    --accent-blue: #194d6e; /* Extra Darkened */
+    --accent-yellow: #7d6607; /* Extra Darkened (was 4.49, now should be safe) */
+    --accent-forest: #124d2a; /* Extra Darkened */
+    --accent-brown: #6b2b00; /* Extra Darkened */
+    --accent-red: #78271f; /* Extra Darkened */
+    --accent-grey: #353f48; /* Extra Darkened */
+    --accent-purple: #5b346b; /* Extra Darkened */
 
     /* Shadows */
     --shadow-sm: 0 4px 6px rgba(0, 0, 0, 0.05);
@@ -198,32 +198,7 @@ p {
     flex-direction: column;
     position: relative;
     height: 400px; /* Fixed height for consistency in grid */
-    animation: fade-in-up 0.8s backwards;
-}
-
-.card:nth-child(1) {
-    animation-delay: 0.1s;
-}
-.card:nth-child(2) {
-    animation-delay: 0.2s;
-}
-.card:nth-child(3) {
-    animation-delay: 0.3s;
-}
-.card:nth-child(4) {
-    animation-delay: 0.4s;
-}
-.card:nth-child(5) {
-    animation-delay: 0.5s;
-}
-.card:nth-child(6) {
-    animation-delay: 0.6s;
-}
-.card:nth-child(7) {
-    animation-delay: 0.7s;
-}
-.card:nth-child(8) {
-    animation-delay: 0.8s;
+    opacity: 1;
 }
 
 .card:hover {
@@ -373,9 +348,29 @@ body.has-expanded-card::after {
     margin-top: var(--spacing-lg);
     overflow: hidden;
     box-shadow: var(--shadow-sm);
-    background: #eee; /* Fallback while loading */
-    /* Removing 'backwards' fill mode if it causes issues, but keeping animation */
-    animation: fade-in-up 0.5s 0.4s both;
+    background: #f0f0f0; /* Fallback while loading */
+    position: relative; /* For loading spinner */
+}
+
+.card-map-container.map-loading::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 40px;
+    height: 40px;
+    margin: -20px 0 0 -20px;
+    border: 3px solid rgba(0, 0, 0, 0.1);
+    border-top-color: var(--text-primary);
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    z-index: 5;
+}
+
+@keyframes spin {
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .card.expanded .close-button {
@@ -493,6 +488,47 @@ body.has-expanded-card::after {
 }
 #card-janjanbureh .location-tag {
     color: var(--accent-purple);
+}
+
+/* --- Map Markers --- */
+.custom-pin {
+    background: transparent;
+    border: none;
+}
+
+.marker-pin {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    border: 4px solid white;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    background-color: var(--accent-blue); /* Default fallback */
+}
+
+.marker-kachikally {
+    background-color: var(--accent-green);
+}
+.marker-tanji {
+    background-color: var(--accent-blue);
+}
+.marker-shores {
+    background-color: var(--accent-yellow);
+}
+.marker-bijilo {
+    background-color: var(--accent-forest);
+}
+.marker-wassu {
+    background-color: var(--accent-brown);
+}
+.marker-kunta {
+    background-color: var(--accent-grey);
+}
+.marker-albert {
+    background-color: var(--accent-red);
+}
+.marker-janjanbureh {
+    background-color: var(--accent-purple);
 }
 
 /* --- Animations --- */
