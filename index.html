@@ -9,7 +9,7 @@
         />
         <meta
             http-equiv="Content-Security-Policy"
-            content="default-src 'self'; script-src 'self' https://unpkg.com; style-src 'self' https://fonts.googleapis.com https://unpkg.com 'unsafe-inline'; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://unpkg.com; connect-src 'self';"
+            content="default-src 'self'; script-src 'self' 'module' https://unpkg.com; style-src 'self' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://unpkg.com; connect-src 'self';"
         />
         <title>Gambia: A Visual Journey</title>
         <link
@@ -55,7 +55,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="crocodile.svg" alt="Crocodile icon" class="card-icon" />
+                        <img src="crocodile.svg" alt="Crocodile icon" class="card-icon" loading="lazy" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -104,7 +104,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="bird.svg" alt="Bird icon" class="card-icon" />
+                        <img src="bird.svg" alt="Bird icon" class="card-icon" loading="lazy" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -152,7 +152,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="shores.svg" alt="Shores icon" class="card-icon" />
+                        <img src="shores.svg" alt="Shores icon" class="card-icon" loading="lazy" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -201,7 +201,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="forest.svg" alt="Forest icon" class="card-icon" />
+                        <img src="forest.svg" alt="Forest icon" class="card-icon" loading="lazy" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -249,7 +249,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="wassu.svg" alt="Stones icon" class="card-icon" />
+                        <img src="wassu.svg" alt="Stones icon" class="card-icon" loading="lazy" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -297,7 +297,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="kunta-kinteh.svg" alt="Island icon" class="card-icon" />
+                        <img src="kunta-kinteh.svg" alt="Island icon" class="card-icon" loading="lazy" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -345,7 +345,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="albert-market.svg" alt="Market icon" class="card-icon" />
+                        <img src="albert-market.svg" alt="Market icon" class="card-icon" loading="lazy" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -393,7 +393,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="janjanbureh.svg" alt="Building icon" class="card-icon" />
+                        <img src="janjanbureh.svg" alt="Building icon" class="card-icon" loading="lazy" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -435,6 +435,6 @@
             integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo="
             crossorigin=""
         ></script>
-        <script src="script.js"></script>
+        <script type="module" src="js/main.js"></script>
     </body>
 </html>
