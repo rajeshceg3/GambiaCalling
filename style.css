@@ -260,7 +260,7 @@ p {
     height: 64px;
     opacity: 0.85;
     transition: transform var(--transition-spring);
-    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1));
+    filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.1));
 }
 
 .card:hover .card-icon {
@@ -373,7 +373,7 @@ body.has-expanded-card::after {
     grid-column: 1 / 2;
     grid-row: 1 / 3;
     height: 100%;
-    border-right: 1px solid rgba(0,0,0,0.03);
+    border-right: 1px solid rgba(0, 0, 0, 0.03);
 }
 
 .card.expanded .card-content {
@@ -383,7 +383,7 @@ body.has-expanded-card::after {
     overflow-y: auto;
     /* Custom Scrollbar for inner content */
     scrollbar-width: thin;
-    scrollbar-color: rgba(0,0,0,0.1) transparent;
+    scrollbar-color: rgba(0, 0, 0, 0.1) transparent;
 }
 
 .card.expanded .card-body {
@@ -394,15 +394,17 @@ body.has-expanded-card::after {
 }
 
 .card.expanded .card-map-container {
-    display: block;
-    opacity: 1;
-    visibility: visible;
+    display: block !important;
+    opacity: 1 !important;
+    visibility: visible !important;
     width: 100%;
-    height: 350px;
+    height: 350px !important;
+    min-height: 350px !important;
+    flex: 0 0 350px !important;
     border-radius: 16px;
     margin-top: var(--spacing-xl);
     overflow: hidden;
-    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+    box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.05);
     background: #f7f9fa;
     position: relative;
 }
@@ -423,7 +425,9 @@ body.has-expanded-card::after {
 }
 
 @keyframes spin {
-    to { transform: rotate(360deg); }
+    to {
+        transform: rotate(360deg);
+    }
 }
 
 .card.expanded .close-button {
@@ -477,7 +481,7 @@ body.has-expanded-card::after {
         grid-row: 1 / 2;
         height: 250px;
         border-right: none;
-        border-bottom: 1px solid rgba(0,0,0,0.05);
+        border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     }
 
     .card.expanded .card-content {
@@ -498,49 +502,65 @@ body.has-expanded-card::after {
 #card-kachikally .visual-placeholder {
     background: linear-gradient(135deg, var(--pastel-green) 0%, #d8efea 100%);
 }
-#card-kachikally .location-tag { color: var(--accent-green); }
+#card-kachikally .location-tag {
+    color: var(--accent-green);
+}
 
 /* Tanji */
 #card-tanji .visual-placeholder {
     background: linear-gradient(135deg, var(--pastel-blue) 0%, #dbebf7 100%);
 }
-#card-tanji .location-tag { color: var(--accent-blue); }
+#card-tanji .location-tag {
+    color: var(--accent-blue);
+}
 
 /* Shores */
 #card-shores .visual-placeholder {
     background: linear-gradient(135deg, var(--pastel-yellow) 0%, #f9f1d8 100%);
 }
-#card-shores .location-tag { color: var(--accent-yellow); }
+#card-shores .location-tag {
+    color: var(--accent-yellow);
+}
 
 /* Bijilo */
 #card-bijilo .visual-placeholder {
     background: linear-gradient(135deg, var(--pastel-forest) 0%, #dbf3e5 100%);
 }
-#card-bijilo .location-tag { color: var(--accent-forest); }
+#card-bijilo .location-tag {
+    color: var(--accent-forest);
+}
 
 /* Wassu */
 #card-wassu .visual-placeholder {
     background: linear-gradient(135deg, var(--pastel-brown) 0%, #f3e6d8 100%);
 }
-#card-wassu .location-tag { color: var(--accent-brown); }
+#card-wassu .location-tag {
+    color: var(--accent-brown);
+}
 
 /* Kunta Kinteh */
 #card-kunta .visual-placeholder {
     background: linear-gradient(135deg, var(--pastel-grey) 0%, #e8eaed 100%);
 }
-#card-kunta .location-tag { color: var(--accent-grey); }
+#card-kunta .location-tag {
+    color: var(--accent-grey);
+}
 
 /* Albert Market */
 #card-albert .visual-placeholder {
     background: linear-gradient(135deg, var(--pastel-red) 0%, #f9e1e0 100%);
 }
-#card-albert .location-tag { color: var(--accent-red); }
+#card-albert .location-tag {
+    color: var(--accent-red);
+}
 
 /* Janjanbureh */
 #card-janjanbureh .visual-placeholder {
     background: linear-gradient(135deg, var(--pastel-purple) 0%, #ecdcf2 100%);
 }
-#card-janjanbureh .location-tag { color: var(--accent-purple); }
+#card-janjanbureh .location-tag {
+    color: var(--accent-purple);
+}
 
 /* --- Map Markers --- */
 .custom-pin {
@@ -562,14 +582,30 @@ body.has-expanded-card::after {
     transform: scale(1.2);
 }
 
-.marker-kachikally { background-color: var(--accent-green); }
-.marker-tanji { background-color: var(--accent-blue); }
-.marker-shores { background-color: var(--accent-yellow); }
-.marker-bijilo { background-color: var(--accent-forest); }
-.marker-wassu { background-color: var(--accent-brown); }
-.marker-kunta { background-color: var(--accent-grey); }
-.marker-albert { background-color: var(--accent-red); }
-.marker-janjanbureh { background-color: var(--accent-purple); }
+.marker-kachikally {
+    background-color: var(--accent-green);
+}
+.marker-tanji {
+    background-color: var(--accent-blue);
+}
+.marker-shores {
+    background-color: var(--accent-yellow);
+}
+.marker-bijilo {
+    background-color: var(--accent-forest);
+}
+.marker-wassu {
+    background-color: var(--accent-brown);
+}
+.marker-kunta {
+    background-color: var(--accent-grey);
+}
+.marker-albert {
+    background-color: var(--accent-red);
+}
+.marker-janjanbureh {
+    background-color: var(--accent-purple);
+}
 
 /* --- Animations --- */
 @keyframes fade-in-up {
@@ -584,13 +620,19 @@ body.has-expanded-card::after {
 }
 
 @keyframes fade-in {
-    from { opacity: 0; }
-    to { opacity: 1; }
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
 }
 
 /* Reduced Motion */
 @media (prefers-reduced-motion: reduce) {
-    *, *::before, *::after {
+    *,
+    *::before,
+    *::after {
         animation-duration: 0.01ms !important;
         animation-iteration-count: 1 !important;
         transition-duration: 0.01ms !important;
