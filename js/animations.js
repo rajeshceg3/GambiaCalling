@@ -4,7 +4,7 @@ export function setupScrollAnimations() {
     const observerOptions = {
         root: null,
         rootMargin: '0px',
-        threshold: 0.15
+        threshold: 0.15,
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
@@ -22,5 +22,5 @@ export function setupScrollAnimations() {
     }, observerOptions);
 
     const cards = document.querySelectorAll('.card');
-    cards.forEach(card => observer.observe(card));
+    cards.forEach((card) => observer.observe(card));
 }
