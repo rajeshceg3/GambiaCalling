@@ -17,3 +17,13 @@
 
 **Learning:** High-fidelity animations (like FLIP or large transforms) can trigger vestibular disorders. "Delight" for one user is "dizziness" for another.
 **Action:** Always include a `@media (prefers-reduced-motion: reduce)` block that disables or significantly speeds up transitions and animations.
+
+## 2025-02-14 - Map Container Collapse in Flex Layouts
+
+**Learning:** When using Flexbox for expanded layouts, complex children like Leaflet map containers can collapse to zero height if not strictly constrained, breaking the visual experience.
+**Action:** Enforce explicit dimensions on map containers within flex items using `min-height` and fixed `flex-basis` (e.g., `flex: 0 0 350px`) to prevent layout shifting or disappearance.
+
+## 2025-02-14 - Z-Index Hierarchy for Accessibility
+
+**Learning:** Modal overlays often accidentally cover accessibility tools like "Skip to Content" links if z-indices are not strictly managed.
+**Action:** Define a strict hierarchy: Modals (1000), Modal Controls (1100), and Accessibility/Skip Links (2000) to ensure keyboard users are never trapped or obscured.
