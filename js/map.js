@@ -2,7 +2,6 @@
 import { mapState } from './state.js';
 
 export function initMap(containerId, coords, slug) {
-    // Clean up existing map instance if any (though we usually destroy on close)
     if (mapState.currentMap) {
         mapState.currentMap.remove();
         mapState.currentMap = null;
@@ -11,13 +10,18 @@ export function initMap(containerId, coords, slug) {
     const mapContainer = document.getElementById(containerId);
     if (!mapContainer) return;
 
-    // Custom minimal style (using CartoDB Voyager for a cleaner look)
+    // CartoDB Voyager - Minimal & Clean
     const map = L.map(containerId, {
         zoomControl: false,
         attributionControl: false,
-    }).setView(coords, 14);
+        dragging: !L.Browser.mobile, // Disable dragging on mobile to prevent scroll hijacking initially
+        tap: !L.Browser.mobile,
+    }).setView(coords, 13); // Zoom out slightly for context
 
     mapState.currentMap = map;
+
+    // Add zoom control to top-right manually
+    L.control.zoom({ position: 'topright' }).addTo(map);
 
     const tileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
         attribution:
@@ -32,8 +36,7 @@ export function initMap(containerId, coords, slug) {
 
     tileLayer.addTo(map);
 
-    // Custom minimalist marker
-    // We use a CSS class for the color to avoid inline styles (CSP compliance)
+    // Custom Animated Marker
     const customIcon = L.divIcon({
         className: 'custom-pin',
         html: `<div class="marker-pin marker-${slug}"></div>`,
@@ -43,25 +46,35 @@ export function initMap(containerId, coords, slug) {
 
     const marker = L.marker(coords, { icon: customIcon }).addTo(map);
 
-    // Add a simple animation to the marker
+    // Advanced Marker Animation using Web Animations API
     setTimeout(() => {
         const el = marker.getElement();
         if (el) {
-            // Use CSS class or just let the CSS transition handle it if we toggle a class
-            // But here we want a specific entrance animation.
-            // transform scale is safe for performance.
-            // CSP: animate() API is safe.
+            // Bounce and Pulse effect
             el.animate(
                 [
-                    { transform: 'translate3d(0,0,0) scale(0)', opacity: 0 },
-                    { transform: 'translate3d(0,0,0) scale(1)', opacity: 1 },
+                    { transform: 'translate3d(0, -50px, 0) scale(0)', opacity: 0 },
+                    { transform: 'translate3d(0, 0, 0) scale(1.2)', opacity: 1, offset: 0.6 },
+                    { transform: 'translate3d(0, -10px, 0) scale(0.9)', opacity: 1, offset: 0.8 },
+                    { transform: 'translate3d(0, 0, 0) scale(1)', opacity: 1 },
                 ],
                 {
-                    duration: 600,
+                    duration: 800,
                     easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
                     fill: 'forwards',
                 }
             );
+
+            // Add a subtle pulse after entrance
+            setTimeout(() => {
+                const pin = el.querySelector('.marker-pin');
+                if (pin) {
+                    pin.animate([{ boxShadow: '0 0 0 0 rgba(0,0,0,0.4)' }, { boxShadow: '0 0 0 10px rgba(0,0,0,0)' }], {
+                        duration: 2000,
+                        iterations: Infinity,
+                    });
+                }
+            }, 800);
         }
-    }, 100);
+    }, 300);
 }
