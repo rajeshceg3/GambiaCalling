@@ -528,7 +528,7 @@ body.has-expanded-card::after {
     background: linear-gradient(135deg, var(--pastel-blue) 0%, #b3e5fc 100%);
 }
 #card-tanji .location-tag {
-    color: var(--accent-blue);
+    color: #002f6c; /* Even Darker blue for contrast ratio > 4.5:1 against #ffffff/rgba(255,255,255,0.5) */
     border-color: var(--pastel-blue);
 }
 

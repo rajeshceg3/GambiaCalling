@@ -44,7 +44,13 @@ export function initMap(containerId, coords, slug) {
         iconAnchor: [12, 12],
     });
 
-    const marker = L.marker(coords, { icon: customIcon }).addTo(map);
+    // Provide accessible name for the marker
+    const marker = L.marker(coords, {
+        icon: customIcon,
+        title: `Location: ${slug}`, // Tooltip on hover
+        alt: `Location marker for ${slug}`, // For screen readers if Leaflet supports it (Leaflet 1.9+ often puts it on the icon img or div)
+        keyboard: true,
+    }).addTo(map);
 
     // Advanced Marker Animation using Web Animations API
     setTimeout(() => {
