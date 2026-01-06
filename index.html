@@ -8,6 +8,11 @@
             content="A visual journey through The Gambia, exploring its landscapes, culture, and hidden gems."
         />
         <meta name="theme-color" content="#fdfcf8" />
+        <meta property="og:title" content="Gambia: A Visual Journey" />
+        <meta property="og:description" content="A visual journey through The Gambia, exploring its landscapes, culture, and hidden gems." />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="https://example.com/assets/shores.svg" />
+        <meta name="twitter:card" content="summary_large_image" />
         <meta
             http-equiv="Content-Security-Policy"
             content="default-src 'self'; script-src 'self' 'module' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://unpkg.com; connect-src 'self';"
@@ -17,8 +22,10 @@
             rel="icon"
             href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🇬🇲</text></svg>"
         />
+        <link rel="manifest" href="manifest.json" />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link rel="preload" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap" as="style" />
         <link
             href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap"
             rel="stylesheet"
@@ -64,7 +71,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="assets/crocodile.svg" alt="Crocodile icon" class="card-icon" loading="lazy" />
+                        <img src="assets/crocodile.svg" alt="Crocodile icon" class="card-icon" loading="lazy" width="200" height="100" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -113,7 +120,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="assets/bird.svg" alt="Bird icon" class="card-icon" loading="lazy" />
+                        <img src="assets/bird.svg" alt="Bird icon" class="card-icon" loading="lazy" width="100" height="100" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -161,7 +168,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="assets/shores.svg" alt="Shores icon" class="card-icon" loading="lazy" />
+                        <img src="assets/shores.svg" alt="Shores icon" class="card-icon" loading="lazy" width="400" height="200" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -210,7 +217,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="assets/forest.svg" alt="Forest icon" class="card-icon" loading="lazy" />
+                        <img src="assets/forest.svg" alt="Forest icon" class="card-icon" loading="lazy" width="400" height="200" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -258,7 +265,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="assets/wassu.svg" alt="Stones icon" class="card-icon" loading="lazy" />
+                        <img src="assets/wassu.svg" alt="Stones icon" class="card-icon" loading="lazy" width="200" height="200" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -306,7 +313,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="assets/kunta-kinteh.svg" alt="Island icon" class="card-icon" loading="lazy" />
+                        <img src="assets/kunta-kinteh.svg" alt="Island icon" class="card-icon" loading="lazy" width="200" height="200" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -354,7 +361,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="assets/albert-market.svg" alt="Market icon" class="card-icon" loading="lazy" />
+                        <img src="assets/albert-market.svg" alt="Market icon" class="card-icon" loading="lazy" width="200" height="200" />
                     </div>
                 </div>
                 <div class="card-content">
@@ -402,7 +409,7 @@
             >
                 <div class="card-visual">
                     <div class="visual-placeholder">
-                        <img src="assets/janjanbureh.svg" alt="Building icon" class="card-icon" loading="lazy" />
+                        <img src="assets/janjanbureh.svg" alt="Building icon" class="card-icon" loading="lazy" width="400" height="200" />
                     </div>
                 </div>
                 <div class="card-content">

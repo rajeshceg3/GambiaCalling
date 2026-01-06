@@ -1,10 +1,16 @@
-// js/ui.js
+/**
+ * @file ui.js
+ * @description Handles UI interactions, including card expansion/collapse and focus management.
+ */
 import { initMap } from './map.js';
 import { mapState } from './state.js';
 
 let activeCard = null;
 let trapFocusHandler = null;
 
+/**
+ * Sets up event listeners for card interactions.
+ */
 export function setupCardInteractions() {
     const cards = document.querySelectorAll('.card');
 
@@ -24,9 +30,13 @@ export function setupCardInteractions() {
         if (closeBtn) {
             closeBtn.setAttribute('title', 'Close card');
             closeBtn.addEventListener('click', (e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 collapseCard(card);
             });
+
+            // Ensure button is clickable even if z-index is tricky
+            closeBtn.style.pointerEvents = 'auto';
         }
 
         card.addEventListener('click', (e) => {
