@@ -1,5 +1,7 @@
-// js/animations.js
-
+/**
+ * @file animations.js
+ * @description Manages scroll-triggered animations and parallax effects.
+ */
 export function setupScrollAnimations() {
     const observerOptions = {
         root: null,

@@ -1,6 +1,15 @@
-// js/map.js
+/**
+ * @file map.js
+ * @description Handles Leaflet map initialization and marker animations.
+ */
 import { mapState } from './state.js';
 
+/**
+ * Initializes the map in the specified container.
+ * @param {string} containerId - The ID of the container element.
+ * @param {[number, number]} coords - The [latitude, longitude] coordinates.
+ * @param {string} slug - The location slug for styling.
+ */
 export function initMap(containerId, coords, slug) {
     if (mapState.currentMap) {
         mapState.currentMap.remove();
