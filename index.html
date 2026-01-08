@@ -8,6 +8,14 @@
             content="A visual journey through The Gambia, exploring its landscapes, culture, and hidden gems."
         />
         <meta name="theme-color" content="#fdfcf8" />
+        <!-- Open Graph Meta Tags -->
+        <meta property="og:title" content="Gambia: A Visual Journey" />
+        <meta
+            property="og:description"
+            content="A visual journey through The Gambia, exploring its landscapes, culture, and hidden gems."
+        />
+        <meta property="og:type" content="website" />
+        <meta property="og:image" content="assets/og-image.jpg" />
         <meta
             http-equiv="Content-Security-Policy"
             content="default-src 'self'; script-src 'self' 'module' https://unpkg.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https://*.basemaps.cartocdn.com https://unpkg.com; connect-src 'self';"
@@ -54,9 +62,10 @@
 
         <main class="gallery-container" id="main-content">
             <!-- Kachikally -->
-            <article
+            <div role="button"
                 class="card"
                 tabindex="0"
+
                 aria-expanded="false"
                 id="card-kachikally"
                 data-lat="13.4533"
@@ -99,12 +108,13 @@
                         </svg>
                     </button>
                 </div>
-            </article>
+            </div>
 
             <!-- Tanji -->
-            <article
+            <div role="button"
                 class="card"
                 tabindex="0"
+
                 aria-expanded="false"
                 id="card-tanji"
                 data-lat="13.3833"
@@ -146,12 +156,13 @@
                         </svg>
                     </button>
                 </div>
-            </article>
+            </div>
 
             <!-- Shores -->
-            <article
+            <div role="button"
                 class="card"
                 tabindex="0"
+
                 aria-expanded="false"
                 id="card-shores"
                 data-lat="13.4667"
@@ -194,12 +205,13 @@
                         </svg>
                     </button>
                 </div>
-            </article>
+            </div>
 
             <!-- Bijilo -->
-            <article
+            <div role="button"
                 class="card"
                 tabindex="0"
+
                 aria-expanded="false"
                 id="card-bijilo"
                 data-lat="13.4167"
@@ -241,12 +253,13 @@
                         </svg>
                     </button>
                 </div>
-            </article>
+            </div>
 
             <!-- Wassu -->
-            <article
+            <div role="button"
                 class="card"
                 tabindex="0"
+
                 aria-expanded="false"
                 id="card-wassu"
                 data-lat="13.6833"
@@ -288,12 +301,13 @@
                         </svg>
                     </button>
                 </div>
-            </article>
+            </div>
 
             <!-- Kunta Kinteh -->
-            <article
+            <div role="button"
                 class="card"
                 tabindex="0"
+
                 aria-expanded="false"
                 id="card-kunta"
                 data-lat="13.3167"
@@ -335,12 +349,13 @@
                         </svg>
                     </button>
                 </div>
-            </article>
+            </div>
 
             <!-- Albert Market -->
-            <article
+            <div role="button"
                 class="card"
                 tabindex="0"
+
                 aria-expanded="false"
                 id="card-albert"
                 data-lat="13.45"
@@ -382,12 +397,13 @@
                         </svg>
                     </button>
                 </div>
-            </article>
+            </div>
 
             <!-- Janjanbureh -->
-            <article
+            <div role="button"
                 class="card"
                 tabindex="0"
+
                 aria-expanded="false"
                 id="card-janjanbureh"
                 data-lat="13.5333"
@@ -429,7 +445,7 @@
                         </svg>
                     </button>
                 </div>
-            </article>
+            </div>
         </main>
 
         <script

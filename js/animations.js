@@ -3,6 +3,9 @@
 /**
  * Sets up scroll-triggered animations using IntersectionObserver.
  * Handles the "in-view" state for cards and the parallax effect for the header.
+ *
+ * This module ensures that elements animate in as the user scrolls, providing a
+ * "visual journey" feel. It also handles the parallax effect for the header text.
  */
 export function setupScrollAnimations() {
     const observerOptions = {
