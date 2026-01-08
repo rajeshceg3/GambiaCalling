@@ -1,6 +1,15 @@
 // js/map.js
 import { mapState } from './state.js';
 
+/**
+ * Initializes a Leaflet map within a specific container.
+ * Cleans up any existing map instance before creating a new one to prevent memory leaks
+ * and DOM conflicts.
+ *
+ * @param {string} containerId - The ID of the DOM element to hold the map.
+ * @param {[number, number]} coords - The [latitude, longitude] coordinates for the map center and marker.
+ * @param {string} slug - A unique identifier for the location (used for styling and accessibility).
+ */
 export function initMap(containerId, coords, slug) {
     if (mapState.currentMap) {
         mapState.currentMap.remove();

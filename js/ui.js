@@ -5,6 +5,14 @@ import { mapState } from './state.js';
 let activeCard = null;
 let trapFocusHandler = null;
 
+/**
+ * Sets up all interactive behaviors for the cards.
+ * This includes:
+ * - Click handlers for expansion/collapse.
+ * - Keyboard accessibility (Enter/Space to expand, Escape to close).
+ * - ARIA attribute management.
+ * - Focus trapping within expanded cards.
+ */
 export function setupCardInteractions() {
     const cards = document.querySelectorAll('.card');
 
@@ -50,6 +58,16 @@ export function setupCardInteractions() {
     });
 }
 
+/**
+ * Expands a card to fill the screen and initializes its map.
+ * Handles:
+ * - Visual expansion animation (via CSS classes).
+ * - Focus management (trapping focus).
+ * - Map initialization.
+ * - Body scroll locking.
+ *
+ * @param {HTMLElement} card - The card element to expand.
+ */
 function expandCard(card) {
     document.body.style.overflow = 'hidden';
     document.body.classList.add('has-expanded-card');
@@ -110,6 +128,17 @@ function expandCard(card) {
     }, 150); // Reduced delay to feel snappier
 }
 
+/**
+ * Collapses the currently expanded card.
+ * Handles:
+ * - Removing CSS classes.
+ * - Restoring body scroll.
+ * - Removing focus trap.
+ * - Cleaning up the map instance.
+ * - Returning focus to the card.
+ *
+ * @param {HTMLElement} card - The card element to collapse.
+ */
 function collapseCard(card) {
     document.body.style.overflow = '';
     document.body.classList.remove('has-expanded-card');
