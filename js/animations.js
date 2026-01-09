@@ -21,8 +21,11 @@ export function setupScrollAnimations() {
                 // We use a custom property to handle the stagger in CSS if we wanted,
                 // but here we just use a timeout for the class addition.
 
-                // We add a random variance to the delay to make it feel more organic
-                const randomDelay = Math.random() * 150;
+                // Check for reduced motion preference
+                const shouldAnimate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+                // We add a random variance to the delay to make it feel more organic, but only if motion is allowed
+                const randomDelay = shouldAnimate ? Math.random() * 150 : 0;
 
                 setTimeout(() => {
                     entry.target.classList.add('in-view');
@@ -34,10 +37,16 @@ export function setupScrollAnimations() {
     }, observerOptions);
 
     const cards = document.querySelectorAll('.card');
+    const shouldAnimate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
     cards.forEach((card, index) => {
         // Add a base delay based on index to force a "wave" effect on initial load
         // This helps if multiple cards are in view at once
-        card.style.transitionDelay = `${index * 50}ms`;
+        if (shouldAnimate) {
+            card.style.transitionDelay = `${index * 50}ms`;
+        } else {
+            card.style.transitionDelay = '0ms';
+        }
         observer.observe(card);
     });
 

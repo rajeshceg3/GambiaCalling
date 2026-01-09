@@ -64,7 +64,10 @@ export function initMap(containerId, coords, slug) {
     // Advanced Marker Animation using Web Animations API
     setTimeout(() => {
         const el = marker.getElement();
-        if (el) {
+        // Check for reduced motion preference
+        const shouldAnimate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+        if (el && shouldAnimate) {
             // Bounce and Pulse effect
             el.animate(
                 [
@@ -90,6 +93,9 @@ export function initMap(containerId, coords, slug) {
                     });
                 }
             }, 800);
+        } else if (el) {
+            // Ensure visibility if animation is skipped
+            el.style.opacity = '1';
         }
     }, 300);
 }
