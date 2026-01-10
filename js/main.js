@@ -5,6 +5,10 @@
  */
 import { setupCardInteractions } from './ui.js';
 import { setupScrollAnimations } from './animations.js';
+import { setupGlobalErrorHandling } from './error-handler.js';
+
+// Initialize safety nets first
+setupGlobalErrorHandling();
 
 document.addEventListener('DOMContentLoaded', () => {
     setupCardInteractions();

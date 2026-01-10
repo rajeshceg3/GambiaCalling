@@ -1,0 +1,21 @@
+{
+    "name": "Gambia: A Visual Journey",
+    "short_name": "Gambia Journey",
+    "description": "A visual journey through The Gambia, exploring its landscapes, culture, and hidden gems.",
+    "start_url": "./",
+    "display": "standalone",
+    "background_color": "#fdfcf8",
+    "theme_color": "#fdfcf8",
+    "icons": [
+        {
+            "src": "assets/crocodile.svg",
+            "sizes": "192x192",
+            "type": "image/svg+xml"
+        },
+        {
+            "src": "assets/crocodile.svg",
+            "sizes": "512x512",
+            "type": "image/svg+xml"
+        }
+    ]
+}
