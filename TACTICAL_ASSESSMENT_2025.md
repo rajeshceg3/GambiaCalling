@@ -3,74 +3,73 @@
 **DATE:** 2025-05-23
 **OPERATIVE:** Jules (NAVY Seal / Lead Engineer)
 **TARGET:** `gambia-visual-journey`
+**STATUS:** GREEN (OPERATIONAL)
 
-## 1. SITUATION REPORT
+## 1. EXECUTIVE SUMMARY
 
-The target repository is a high-quality, vanilla JS single-page application. The codebase is clean, modular (ES Modules), and exhibits strong accessibility foundations.
+The target repository is a high-performance, vanilla JavaScript single-page application (SPA) utilizing ES Modules and CSS Variables. Contrary to previous intelligence, the unit and integration testing suite (Playwright) is **fully operational** across all browser engines (Chromium, Firefox, WebKit). The codebase exhibits strong architectural discipline, accessibility awareness, and modern coding standards.
 
-**Status:** OPERATIONAL (DEGRADED)
-- **Code Quality:** HIGH (Modular, Linted)
-- **Testing:** PARTIAL (Chromium pass, Firefox/WebKit fail due to environment constraints)
-- **Security:** MEDIUM (CSP present but permeable)
-- **UX/A11y:** GOOD (Reduced motion logic present)
+However, specific **tactical gaps** exist in User Experience (UX), Performance (CLS), and Offline Resilience (PWA) that prevent the application from achieving "Mission Critical" production status.
 
-## 2. TACTICAL GAP ANALYSIS
+## 2. CURRENT OPERATIONAL STATUS
 
-### CRITICAL GAPS (Mission Critical)
-1.  **Missing Global Error Handling (`js/main.js`):**
-    - *Risk:* If a script fails (network, syntax), the app fails silently ("White Screen of Death").
-    - *Impact:* Total mission failure for the user.
-2.  **Missing PWA Manifest (`manifest.json`):**
-    - *Risk:* Application is not installable; fails basic PWA criteria.
-    - *Impact:* Suboptimal UX on mobile; lower engagement.
+- **Architecture:** `ES Modules` (Modular, Clean Separation of Concerns).
+- **Frontend:** Semantic HTML5, CSS3 (Glassmorphism, Variables), Vanilla JS.
+- **Testing:** **100% PASS** (21/21 Tests on Chromium, Firefox, WebKit).
+- **Security:** CSP Present (Grade B - Permeable `style-src`).
+- **Accessibility:** High (ARIA attributes managed, Keyboard navigable, Focus trapping).
+- **PWA:** Partial (Manifest present, No Service Worker).
 
-### HIGH PRIORITY GAPS
-1.  **Test Environment Instability:**
-    - *Risk:* WebKit/Firefox tests fail due to missing host libraries.
-    - *Impact:* Cannot verify cross-browser compatibility. (Note: This is an environment issue, but reflects on "Deployment Readiness").
-2.  **CSP Permeability:**
-    - *Risk:* `style-src 'unsafe-inline'` is allowed.
-    - *Impact:* Increased attack surface for XSS.
+## 3. TACTICAL GAP ANALYSIS
 
-### OPTIMIZATION OPPORTUNITIES
-1.  **Service Worker:** No offline caching strategy.
-2.  **Performance:** No explicit image width/height on some assets (potential CLS).
+### PRIORITY 1: USER EXPERIENCE (UX) FRICTION
+*   **Target:** Map Marker Titles
+*   **Observation:** Markers display internal slugs (e.g., `Location: kachikally`) rather than human-readable names.
+*   **Risk:** Breaks immersion and professionalism.
+*   **Solution:** Map the slug to the Card Title during map initialization.
 
-## 3. STRATEGIC IMPLEMENTATION ROADMAP
+### PRIORITY 2: PERFORMANCE VULNERABILITIES
+*   **Target:** Cumulative Layout Shift (CLS)
+*   **Observation:** Critical asset `<img>` tags in `index.html` lack explicit `width` and `height` attributes.
+*   **Risk:** Layout shifts during loading cause visual jarring and lower Core Web Vitals scores.
+*   **Solution:** Hardcode aspect ratio dimensions on all SVG assets.
 
-### PHASE 1: STABILIZATION & FOUNDATION (IMMEDIATE)
-*Focus: Reliability and Compliance*
+### PRIORITY 3: OPERATIONAL RESILIENCE
+*   **Target:** Offline Capability
+*   **Observation:** `manifest.json` exists, but no `service-worker.js` is registered.
+*   **Risk:** Application fails completely without network connectivity.
+*   **Solution:** Implement a "Stale-While-Revalidate" caching strategy for the App Shell.
 
-1.  **Implement Global Error Safety:**
-    - Add a global error boundary in `js/main.js` to catch unhandled exceptions and promise rejections.
-    - **Action:** Create `js/error-handler.js` and import it first.
+### PRIORITY 4: SECURITY HARDENING
+*   **Target:** Content Security Policy (CSP)
+*   **Observation:** `style-src 'unsafe-inline'` is enabled.
+*   **Context:** Used for global error handling (robustness against CSS load failure) and Leaflet/DOM operations.
+*   **Recommendation:** Maintain current posture for resilience but document the exception. Ensure strict `script-src`.
 
-2.  **Establish PWA Identity:**
-    - Create `manifest.json` with proper metadata.
-    - Link in `index.html`.
-    - **Action:** Add `manifest.json`.
+## 4. STRATEGIC IMPLEMENTATION ROADMAP
 
-3.  **Harden UX (Motion):**
-    - Although reduced motion logic exists, we will reinforce it by ensuring `style.css` has a fallback `@media (prefers-reduced-motion)` block that overrides all transition variables to `0s`.
+### PHASE 1: TACTICAL POLISH (IMMEDIATE)
+*Objective: Eliminate UX friction and layout instability.*
 
-### PHASE 2: DEFENSIVE HARDENING (NEXT)
-*Focus: Security and Robustness*
+1.  **Neutralize CLS:** Apply `width` and `height` attributes to all images in `index.html`.
+2.  **Humanize Data:** Refactor `js/map.js` to accept a `title` parameter instead of just `slug`, passing the card's `<h2>` text.
+3.  **Documentation:** Update `README.md` to reflect the passing test suite.
 
-1.  **CSP Refinement:** Move inline styles in `js/map.js` (if any non-dynamic ones exist) to CSS classes.
-2.  **Offline Capability:** Implement a basic Service Worker to cache the app shell (`index.html`, `style.css`, `js/*.js`).
+### PHASE 2: RESILIENCE & DEPLOYMENT (SHORT TERM)
+*Objective: Ensure mission survival in hostile (offline) environments.*
 
-### PHASE 3: PERFORMANCE OPS
-*Focus: Speed*
+1.  **Deploy Service Worker:** Create `sw.js` to cache `index.html`, `style.css`, `js/*.js`, and `assets/*.svg`.
+2.  **Registration:** Register Service Worker in `js/main.js`.
 
-1.  **Image Optimization:** Ensure all `<img>` tags have explicit aspect ratios.
-2.  **Lighthouse Integration:** Add CI step.
+### PHASE 3: ADVANCED OPS (LONG TERM)
+*Objective: Continuous superiority.*
 
-## 4. EXECUTION ORDER
+1.  **Lighthouse CI:** Integrate automated performance scoring into the pipeline.
+2.  **Telemetry:** Hook `js/error-handler.js` to a real logging service.
 
-**Current Cycle (Phase 1):**
-1.  Create `manifest.json`.
-2.  Update `js/main.js` with Error Handling.
-3.  Verify system functionality.
+## 5. MISSION ORDERS
 
----
-*End of Report*
+**Authorization:** Proceed immediately with **PHASE 1**.
+
+Signed,
+*Jules*
