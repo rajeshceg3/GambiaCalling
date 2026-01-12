@@ -123,7 +123,8 @@ function expandCard(card) {
             const container = document.getElementById(mapId);
             if (container) container.classList.add('map-loading');
 
-            initMap(mapId, [parseFloat(lat), parseFloat(lng)], slug);
+            const title = card.querySelector('h2') ? card.querySelector('h2').textContent : slug;
+            initMap(mapId, [parseFloat(lat), parseFloat(lng)], slug, title);
         }
     }, 150); // Reduced delay to feel snappier
 }
