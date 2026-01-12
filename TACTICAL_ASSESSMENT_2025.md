@@ -7,7 +7,7 @@
 
 ## 1. EXECUTIVE SUMMARY
 
-The target repository is a high-performance, vanilla JavaScript single-page application (SPA) utilizing ES Modules and CSS Variables. Contrary to previous intelligence, the unit and integration testing suite (Playwright) is **fully operational** across all browser engines (Chromium, Firefox, WebKit). The codebase exhibits strong architectural discipline, accessibility awareness, and modern coding standards.
+The target repository is a high-performance, vanilla JavaScript single-page application (SPA) utilizing ES Modules and CSS Variables. The unit and integration testing suite (Playwright) is **fully operational** across all browser engines (Chromium, Firefox, WebKit), maintaining a 100% pass rate. The codebase exhibits strong architectural discipline, accessibility awareness, and modern coding standards.
 
 However, specific **tactical gaps** exist in User Experience (UX), Performance (CLS), and Offline Resilience (PWA) that prevent the application from achieving "Mission Critical" production status.
 
@@ -16,9 +16,10 @@ However, specific **tactical gaps** exist in User Experience (UX), Performance (
 - **Architecture:** `ES Modules` (Modular, Clean Separation of Concerns).
 - **Frontend:** Semantic HTML5, CSS3 (Glassmorphism, Variables), Vanilla JS.
 - **Testing:** **100% PASS** (21/21 Tests on Chromium, Firefox, WebKit).
-- **Security:** CSP Present (Grade B - Permeable `style-src`).
+- **Security:** CSP Present (Grade B - Permeable `style-src` for Leaflet).
 - **Accessibility:** High (ARIA attributes managed, Keyboard navigable, Focus trapping).
 - **PWA:** Partial (Manifest present, No Service Worker).
+- **UX:** Strong "Tactile" feedback, but cosmetic issues in data presentation.
 
 ## 3. TACTICAL GAP ANALYSIS
 
@@ -26,13 +27,13 @@ However, specific **tactical gaps** exist in User Experience (UX), Performance (
 *   **Target:** Map Marker Titles
 *   **Observation:** Markers display internal slugs (e.g., `Location: kachikally`) rather than human-readable names.
 *   **Risk:** Breaks immersion and professionalism.
-*   **Solution:** Map the slug to the Card Title during map initialization.
+*   **Solution:** Map the slug to the Card Title (`<h2>`) during map initialization in `js/ui.js` and `js/map.js`.
 
 ### PRIORITY 2: PERFORMANCE VULNERABILITIES
 *   **Target:** Cumulative Layout Shift (CLS)
 *   **Observation:** Critical asset `<img>` tags in `index.html` lack explicit `width` and `height` attributes.
 *   **Risk:** Layout shifts during loading cause visual jarring and lower Core Web Vitals scores.
-*   **Solution:** Hardcode aspect ratio dimensions on all SVG assets.
+*   **Solution:** Hardcode aspect ratio dimensions (`width="80" height="80"`) on all SVG assets.
 
 ### PRIORITY 3: OPERATIONAL RESILIENCE
 *   **Target:** Offline Capability
@@ -51,15 +52,15 @@ However, specific **tactical gaps** exist in User Experience (UX), Performance (
 ### PHASE 1: TACTICAL POLISH (IMMEDIATE)
 *Objective: Eliminate UX friction and layout instability.*
 
-1.  **Neutralize CLS:** Apply `width` and `height` attributes to all images in `index.html`.
-2.  **Humanize Data:** Refactor `js/map.js` to accept a `title` parameter instead of just `slug`, passing the card's `<h2>` text.
+1.  **Neutralize CLS:** Apply `width="80" height="80"` attributes to all `.card-icon` images in `index.html`.
+2.  **Humanize Data:** Refactor `js/map.js` to accept a `title` parameter. Update `js/ui.js` to extract the `h2.textContent` from the active card and pass it to `initMap`.
 3.  **Documentation:** Update `README.md` to reflect the passing test suite.
 
 ### PHASE 2: RESILIENCE & DEPLOYMENT (SHORT TERM)
 *Objective: Ensure mission survival in hostile (offline) environments.*
 
 1.  **Deploy Service Worker:** Create `sw.js` to cache `index.html`, `style.css`, `js/*.js`, and `assets/*.svg`.
-2.  **Registration:** Register Service Worker in `js/main.js`.
+2.  **Registration:** Register Service Worker in `js/main.js` with `type: 'module'`.
 
 ### PHASE 3: ADVANCED OPS (LONG TERM)
 *Objective: Continuous superiority.*

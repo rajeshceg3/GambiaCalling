@@ -9,8 +9,9 @@ import { mapState } from './state.js';
  * @param {string} containerId - The ID of the DOM element to hold the map.
  * @param {[number, number]} coords - The [latitude, longitude] coordinates for the map center and marker.
  * @param {string} slug - A unique identifier for the location (used for styling and accessibility).
+ * @param {string} [title] - The human-readable title of the location.
  */
-export function initMap(containerId, coords, slug) {
+export function initMap(containerId, coords, slug, title) {
     if (mapState.currentMap) {
         mapState.currentMap.remove();
         mapState.currentMap = null;
@@ -54,10 +55,11 @@ export function initMap(containerId, coords, slug) {
     });
 
     // Provide accessible name for the marker
+    const displayTitle = title || slug;
     const marker = L.marker(coords, {
         icon: customIcon,
-        title: `Location: ${slug}`, // Tooltip on hover
-        alt: `Location marker for ${slug}`, // For screen readers if Leaflet supports it (Leaflet 1.9+ often puts it on the icon img or div)
+        title: displayTitle, // Tooltip on hover
+        alt: `Location marker for ${displayTitle}`, // For screen readers
         keyboard: true,
     }).addTo(map);
 
