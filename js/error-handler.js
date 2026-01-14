@@ -39,7 +39,7 @@ function showSystemErrorToast(message) {
         fontFamily: 'system-ui, sans-serif',
         fontSize: '14px',
         maxWidth: '300px',
-        animation: 'slideIn 0.3s ease-out'
+        animation: 'slideIn 0.3s ease-out',
     });
 
     document.body.appendChild(toast);
