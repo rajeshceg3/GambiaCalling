@@ -791,3 +791,43 @@ body.has-expanded-card::after {
 .marker-janjanbureh {
     background: var(--accent-purple);
 }
+
+/* --- System Alerts (Error Handler) --- */
+.error-toast {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #7f1d1d; /* Dark Red */
+    color: #ffffff;
+    padding: 1rem 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 9999;
+    font-family: system-ui, -apple-system, sans-serif;
+    font-size: 14px;
+    max-width: 300px;
+    animation: slide-in-toast 0.3s ease-out forwards;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+@keyframes slide-in-toast {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* --- Skeleton Pulse Animation --- */
+@keyframes skeleton-pulse {
+    0% { background-color: var(--pastel-grey); }
+    50% { background-color: #e0e0e0; }
+    100% { background-color: var(--pastel-grey); }
+}
+
+.card-map-container.map-loading {
+    animation: skeleton-pulse 1.5s ease-in-out infinite;
+}

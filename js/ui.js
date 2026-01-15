@@ -76,10 +76,21 @@ function expandCard(card) {
     card.setAttribute('aria-expanded', 'true');
     card.classList.add('expanded');
 
-    const closeBtn = card.querySelector('.close-button');
-    setTimeout(() => {
-        if (closeBtn) closeBtn.focus();
-    }, 300);
+    // Focus Management: Wait for expansion animation to finish to prevent "focus flying"
+    // The card uses a CSS animation for expansion
+    card.addEventListener(
+        'animationend',
+        () => {
+            const closeBtn = card.querySelector('.close-button');
+            if (closeBtn) closeBtn.focus();
+
+            // Ensure map size is correct after animation
+            if (mapState.currentMap) {
+                mapState.currentMap.invalidateSize();
+            }
+        },
+        { once: true }
+    );
 
     // Trap Focus
     const focusableElements = card.querySelectorAll(
@@ -110,8 +121,10 @@ function expandCard(card) {
     }
 
     // Initialize Map
-    // Match the CSS animation delay (0.1s) + duration (0.3s) = 0.4s total, but we can start earlier to fetch tiles
-    setTimeout(() => {
+    // We start initialization in the next frame to allow the browser to register the
+    // display:block change, but we don't wait for the full animation to finish
+    // so we can preload tiles while the card expands.
+    requestAnimationFrame(() => {
         const lat = card.getAttribute('data-lat');
         const lng = card.getAttribute('data-lng');
         const mapId = 'map-' + card.id.split('-')[1];
@@ -126,7 +139,7 @@ function expandCard(card) {
             const title = card.querySelector('h2') ? card.querySelector('h2').textContent : slug;
             initMap(mapId, [parseFloat(lat), parseFloat(lng)], slug, title);
         }
-    }, 150); // Reduced delay to feel snappier
+    });
 }
 
 /**
