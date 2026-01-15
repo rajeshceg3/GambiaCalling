@@ -9,14 +9,15 @@
 
 ## 1. EXECUTIVE SUMMARY (SITREP)
 
-The target repository represents a high-quality, modular Single Page Application (SPA) leveraging vanilla JavaScript and CSS. The foundation is solid, but "solid" does not mean "mission-ready." To achieve **Elite Production Status**, we must eliminate residual friction points, harden the security perimeter, and optimize the user experience to be indistinguishable from native performance.
+The target repository is a high-performing Single Page Application (SPA) built with a modular vanilla JavaScript architecture. While the foundation is solid, it currently operates at "Field Ready" status rather than "Mission Critical" status. To achieve **Elite Production Standards**, we must execute a precision strike on security vulnerabilities, user experience latencies, and architectural robustness.
 
 **Current Readiness Levels:**
 
 - **Architecture:** 🟢 GREEN (Modular ES6+, Clean Separation of Concerns)
-- **Security:** 🟡 YELLOW (CSP Vulnerabilities Detected)
-- **UX/UI:** 🟢 GREEN (High Polish, but optimization room exists)
+- **Security:** 🔴 RED (Critical CSP Vulnerability Detected)
+- **UX/UI:** 🟡 YELLOW (High Polish, but "dead zones" in interaction exist)
 - **Performance:** 🟢 GREEN (Lazy loading, efficient assets)
+- **Compliance:** 🟡 YELLOW (Accessibility gaps in focus management)
 
 ---
 
@@ -25,70 +26,66 @@ The target repository represents a high-quality, modular Single Page Application
 ### A. SECURITY VECTORS (CRITICAL)
 
 - **Vector:** Content Security Policy (CSP).
-- **Status:** Compromised.
-- **Detail:** `style-src 'unsafe-inline'` is currently permitted in `index.html`. This opens the perimeter to Cross-Site Scripting (XSS) attacks via inline style injection.
-- **Mitigation:** Implement strict Nonce-based CSP or refactor dynamic styles to class-based toggles.
+- **Status:** **COMPROMISED**.
+- **Detail:** `style-src 'unsafe-inline'` is currently active. This is a Class-A vulnerability allowing potential XSS attacks via CSS injection. While Leaflet.js requires some inline styling for tile positioning, the application's own error handling (`error-handler.js`) unnecessarily exacerbates this by injecting inline styles.
+- **Mitigation:**
+  1.  Refactor `error-handler.js` to use CSS classes.
+  2.  Investigate strict CSP configurations compatible with Leaflet (e.g., nonces) or strictly limit the scope.
+  3.  Pin external dependency versions (Leaflet CSS/JS) to prevent supply chain attacks via CDN.
 
 ### B. USER EXPERIENCE (UX) FRICTION
 
-- **Vector:** Map Loading States.
-- **Detail:** While a spinner exists, the transition from "Card Expansion" to "Map Interactive" has a 150ms delay plus network latency. This creates a "dead zone" in user perception.
-- **Mitigation:** Implement "Skeleton Screens" that mimic the map container immediately upon expansion, providing instant visual feedback before the tile layer initiates.
+- **Vector:** Interaction Latency ("Dead Zones").
+- **Detail:** The transition between "Card Expansion" and "Map Interactive" relies on a hardcoded `setTimeout(150ms)`. This creates a race condition where the map might initialize before the animation finishes (causing layout thrashing) or too late (leaving the user staring at a blank box).
+- **Mitigation:** Replace `setTimeout` with `transitionend` event listeners to synchronize map initialization exactly with the UI state.
+
+- **Vector:** Visual Continuity.
+- **Detail:** When a map loads, there is a visual "snap" from the background color to the tiles.
+- **Mitigation:** Enhance the `.map-loading` state with a "Skeleton Pulse" animation that mimics the map's visual weight, reducing cognitive load during data fetching.
 
 ### C. OPERATIONAL RESILIENCE
 
-- **Vector:** Error Handling.
-- **Detail:** Global error handling exists (`error-handler.js`), but user-facing feedback during partial failures (e.g., map tiles failing to load) is minimal.
-- **Mitigation:** Enhance the `initMap` failure path to show a graceful "Offline/Error" visual state within the card.
+- **Vector:** Error Handling visibility.
+- **Detail:** The global error handler exists but is basic. It lacks retry mechanisms for network-heavy operations (like map tiles) and uses inline styles which violate strict CSP.
+- **Mitigation:** Refactor the toaster notification system to be CSS-driven and accessible (ARIA live regions).
 
 ---
 
 ## 3. STRATEGIC IMPLEMENTATION ROADMAP
 
-### PHASE 1: PERIMETER HARDENING (SECURITY)
+### PHASE 1: PERIMETER HARDENING (IMMEDIATE)
 
-**Priority:** IMMEDIATE
-**Tactics:**
+**Objective:** Secure the codebase against XSS and clean up architectural debt.
 
-1.  **Lockdown CSP:** Remove `'unsafe-inline'` from `style-src`.
-    - _Challenge:_ Leaflet.js often requires inline styles for marker positioning.
-    - _Solution:_ Verify Leaflet v1.9 compatibility or implement a specific hash/nonce for the library.
-2.  **Dependency Audit:** Ensure `leaflet` and `http-server` are pinned to specific secure versions (Completed in `package.json`).
+1.  **Refactor Error Handler:** Remove inline styles from `js/error-handler.js`. Move visual definitions to `style.css` under `.error-toast`.
+2.  **CSP Tightening:** although `unsafe-inline` might remain for Leaflet compatibility in the short term, we must remove *our* reliance on it to pave the way for future strictness.
+3.  **Dependency Lockdown:** Ensure all CDN links use Subresource Integrity (SRI) hashes where possible (Leaflet already does, good).
 
 ### PHASE 2: UX ELEVATION (THE "SMOOTH OPERATOR" PROTOCOL)
 
-**Priority:** HIGH
-**Tactics:**
+**Objective:** Eliminate all perceived latency.
 
-1.  **Tactical Focus Management:**
-    - Current: Focus trap exists.
-    - Upgrade: Ensure `Escape` key behavior is communicated to screen readers via a subtle toast or hint.
-2.  **Motion Design Refinement:**
-    - Current: 300ms delay on close button focus.
-    - Upgrade: Synchronize focus arrival exactly with the `transitionend` event of the card expansion to prevent "focus flying" on slower devices.
-3.  **Visual Feedback:**
-    - Enhance the "Active" state of cards with a more pronounced inner-shadow or border-glow to simulate tactile depth.
+1.  **Event-Driven Architecture:** Replace `setTimeout` in `js/ui.js` with `transitionend` listeners for map initialization and focus management.
+2.  **Skeleton Screens:** Upgrade the `.map-loading` CSS to include a subtle pulse animation (`@keyframes pulse-gray`) to indicate activity beyond just a spinner.
+3.  **Focus Precision:** Ensure the "Close" button receives focus *only* after the card is fully stable to prevent "focus flying" on mobile devices.
 
 ### PHASE 3: SUSTAINMENT & SCALABILITY
 
-**Priority:** MEDIUM
-**Tactics:**
+**Objective:** Ensure long-term viability.
 
-1.  **Automated Recon:** Integrate Lighthouse CI into the deployment pipeline to enforce Performance, Accessibility, and SEO scores > 95.
-2.  **Documentation:** Convert JSDoc to a generated static site for easier onboarding of new recruits (developers).
-
----
-
-## 4. IMMEDIATE ACTION ITEMS (NEXT 24 HOURS)
-
-1.  **Refactor CSP:** Attempt strict policy enforcement.
-2.  **Verify WebKit:** Investigate the specific system dependency (`libgtk`) causing WebKit failure in the test environment.
-3.  **Journaling:** Update `.Jules/palette.md` with new UX patterns discovered during this recon.
+1.  **Linting Rigor:** Upgrade `eslint.config.js` to enforce stricter accessibility rules (e.g., `jsx-a11y` equivalent for vanilla JS, or strict `aria` checks).
+2.  **Automated Verification:** Implement a frontend verification script (Playwright) that explicitly checks for the presence of the map loading state, ensuring no regression in UX.
 
 ---
 
-**CONCLUSION:**
-The codebase is combat-effective but requires armor-plating (CSP) and weapon-tuning (UX Polish) to be considered truly "Production Ready." We proceed with Phase 1 immediately.
+## 4. IMMEDIATE TACTICAL ORDERS
+
+I will now proceed to execute **Phase 1** and key elements of **Phase 2** to demonstrate immediate value.
+
+1.  **Refactor `js/error-handler.js`**: Isolate styles to CSS.
+2.  **Upgrade `js/ui.js`**: Implement `transitionend` logic.
+3.  **Enhance `style.css`**: Add skeleton animations and toast styles.
+4.  **Verify**: Run the test suite.
 
 _Strength and Honor,_
 **Jules**
