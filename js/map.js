@@ -40,9 +40,12 @@ export function initMap(containerId, coords, slug, title) {
         maxZoom: 20,
     });
 
-    tileLayer.on('load', () => {
+    const removeLoading = () => {
         if (mapContainer) mapContainer.classList.remove('map-loading');
-    });
+    };
+
+    tileLayer.on('load', removeLoading);
+    tileLayer.on('tileerror', removeLoading); // Ensure loading state is removed even on error
 
     tileLayer.addTo(map);
 
@@ -64,40 +67,44 @@ export function initMap(containerId, coords, slug, title) {
     }).addTo(map);
 
     // Advanced Marker Animation using Web Animations API
-    setTimeout(() => {
-        const el = marker.getElement();
-        // Check for reduced motion preference
-        const shouldAnimate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    // Wait for the map to be ready and use requestAnimationFrame to ensure the DOM element is created
+    map.whenReady(() => {
+        requestAnimationFrame(() => {
+            const el = marker.getElement();
+            // Check for reduced motion preference
+            const shouldAnimate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-        if (el && shouldAnimate) {
-            // Bounce and Pulse effect
-            el.animate(
-                [
-                    { transform: 'translate3d(0, -50px, 0) scale(0)', opacity: 0 },
-                    { transform: 'translate3d(0, 0, 0) scale(1.2)', opacity: 1, offset: 0.6 },
-                    { transform: 'translate3d(0, -10px, 0) scale(0.9)', opacity: 1, offset: 0.8 },
-                    { transform: 'translate3d(0, 0, 0) scale(1)', opacity: 1 },
-                ],
-                {
-                    duration: 800,
-                    easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
-                    fill: 'forwards',
-                }
-            );
+            if (el && shouldAnimate) {
+                // Bounce and Pulse effect
+                el.animate(
+                    [
+                        { transform: 'translate3d(0, -50px, 0) scale(0)', opacity: 0 },
+                        { transform: 'translate3d(0, 0, 0) scale(1.2)', opacity: 1, offset: 0.6 },
+                        { transform: 'translate3d(0, -10px, 0) scale(0.9)', opacity: 1, offset: 0.8 },
+                        { transform: 'translate3d(0, 0, 0) scale(1)', opacity: 1 },
+                    ],
+                    {
+                        duration: 800,
+                        easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
+                        fill: 'forwards',
+                    }
+                );
 
-            // Add a subtle pulse after entrance
-            setTimeout(() => {
-                const pin = el.querySelector('.marker-pin');
-                if (pin) {
-                    pin.animate([{ boxShadow: '0 0 0 0 rgba(0,0,0,0.4)' }, { boxShadow: '0 0 0 10px rgba(0,0,0,0)' }], {
-                        duration: 2000,
-                        iterations: Infinity,
-                    });
-                }
-            }, 800);
-        } else if (el) {
-            // Ensure visibility if animation is skipped
-            el.style.opacity = '1';
-        }
-    }, 300);
+                // Add a subtle pulse after entrance
+                // Wait for the entrance animation (800ms)
+                setTimeout(() => {
+                    const pin = el.querySelector('.marker-pin');
+                    if (pin) {
+                        pin.animate([{ boxShadow: '0 0 0 0 rgba(0,0,0,0.4)' }, { boxShadow: '0 0 0 10px rgba(0,0,0,0)' }], {
+                            duration: 2000,
+                            iterations: Infinity,
+                        });
+                    }
+                }, 800);
+            } else if (el) {
+                // Ensure visibility if animation is skipped
+                el.style.opacity = '1';
+            }
+        });
+    });
 }

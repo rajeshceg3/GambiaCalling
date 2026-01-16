@@ -831,3 +831,10 @@ body.has-expanded-card::after {
 .card-map-container.map-loading {
     animation: skeleton-pulse 1.5s ease-in-out infinite;
 }
+
+/* Toast Dismissal State */
+.error-toast.dismissing {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.3s ease-out, transform 0.3s ease-out;
+}
