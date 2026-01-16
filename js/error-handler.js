@@ -30,9 +30,8 @@ function showSystemErrorToast(message) {
     // Auto-dismiss after 5 seconds
     setTimeout(() => {
         if (toast.isConnected) {
-            // Use CSS transition for smooth exit
-            toast.style.opacity = '0';
-            toast.style.transition = 'opacity 0.3s ease-out';
+            // Use CSS class for smooth exit
+            toast.classList.add('dismissing');
 
             toast.addEventListener('transitionend', () => {
                 if (toast.isConnected) toast.remove();
