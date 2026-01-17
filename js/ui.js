@@ -1,6 +1,7 @@
 // js/ui.js
 import { initMap } from './map.js';
 import { mapState } from './state.js';
+import { CONFIG } from './config.js';
 
 let activeCard = null;
 let trapFocusHandler = null;

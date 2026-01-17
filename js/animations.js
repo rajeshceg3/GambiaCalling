@@ -1,4 +1,5 @@
 // js/animations.js
+import { CONFIG } from './config.js';
 
 /**
  * Sets up scroll-triggered animations using IntersectionObserver.
@@ -25,7 +26,7 @@ export function setupScrollAnimations() {
                 const shouldAnimate = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
                 // We add a random variance to the delay to make it feel more organic, but only if motion is allowed
-                const randomDelay = shouldAnimate ? Math.random() * 150 : 0;
+                const randomDelay = shouldAnimate ? Math.random() * CONFIG.ANIMATION.DELAY.SCROLL_TRIGGER_MAX : 0;
 
                 setTimeout(() => {
                     entry.target.classList.add('in-view');
@@ -43,7 +44,7 @@ export function setupScrollAnimations() {
         // Add a base delay based on index to force a "wave" effect on initial load
         // This helps if multiple cards are in view at once
         if (shouldAnimate) {
-            card.style.transitionDelay = `${index * 50}ms`;
+            card.style.transitionDelay = `${index * CONFIG.ANIMATION.DELAY.STAGGER_BASE}ms`;
         } else {
             card.style.transitionDelay = '0ms';
         }
