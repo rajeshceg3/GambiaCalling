@@ -1,5 +1,6 @@
 // js/map.js
 import { mapState } from './state.js';
+import { CONFIG } from './config.js';
 
 /**
  * Initializes a Leaflet map within a specific container.
@@ -26,7 +27,7 @@ export function initMap(containerId, coords, slug, title) {
         attributionControl: false,
         dragging: !L.Browser.mobile, // Disable dragging on mobile to prevent scroll hijacking initially
         tap: !L.Browser.mobile,
-    }).setView(coords, 13); // Zoom out slightly for context
+    }).setView(coords, CONFIG.MAP.DEFAULT_ZOOM); // Zoom out slightly for context
 
     mapState.currentMap = map;
 
@@ -76,7 +77,7 @@ export function initMap(containerId, coords, slug, title) {
 
             if (el && shouldAnimate) {
                 // Bounce and Pulse effect
-                el.animate(
+                const entranceAnimation = el.animate(
                     [
                         { transform: 'translate3d(0, -50px, 0) scale(0)', opacity: 0 },
                         { transform: 'translate3d(0, 0, 0) scale(1.2)', opacity: 1, offset: 0.6 },
@@ -84,23 +85,26 @@ export function initMap(containerId, coords, slug, title) {
                         { transform: 'translate3d(0, 0, 0) scale(1)', opacity: 1 },
                     ],
                     {
-                        duration: 800,
+                        duration: CONFIG.ANIMATION.DURATION.MAP_ENTRANCE,
                         easing: 'cubic-bezier(0.34, 1.56, 0.64, 1)',
                         fill: 'forwards',
                     }
                 );
 
                 // Add a subtle pulse after entrance
-                // Wait for the entrance animation (800ms)
-                setTimeout(() => {
+                // Use the Promise returned by the animation to chain the next one
+                entranceAnimation.finished.then(() => {
                     const pin = el.querySelector('.marker-pin');
                     if (pin) {
-                        pin.animate([{ boxShadow: '0 0 0 0 rgba(0,0,0,0.4)' }, { boxShadow: '0 0 0 10px rgba(0,0,0,0)' }], {
-                            duration: 2000,
-                            iterations: Infinity,
-                        });
+                        pin.animate(
+                            [{ boxShadow: '0 0 0 0 rgba(0,0,0,0.4)' }, { boxShadow: '0 0 0 10px rgba(0,0,0,0)' }],
+                            {
+                                duration: CONFIG.ANIMATION.DURATION.MAP_PULSE,
+                                iterations: Infinity,
+                            }
+                        );
                     }
-                }, 800);
+                });
             } else if (el) {
                 // Ensure visibility if animation is skipped
                 el.style.opacity = '1';

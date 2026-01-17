@@ -4,6 +4,8 @@
  * Catches unhandled errors and promise rejections to prevent silent failures.
  */
 
+import { CONFIG } from './config.js';
+
 export function setupGlobalErrorHandling() {
     window.addEventListener('error', (event) => {
         // Log to telemetry service here in production
@@ -27,15 +29,19 @@ function showSystemErrorToast(message) {
 
     document.body.appendChild(toast);
 
-    // Auto-dismiss after 5 seconds
+    // Auto-dismiss after defined duration
     setTimeout(() => {
         if (toast.isConnected) {
             // Use CSS class for smooth exit
             toast.classList.add('dismissing');
 
-            toast.addEventListener('transitionend', () => {
-                if (toast.isConnected) toast.remove();
-            }, { once: true });
+            toast.addEventListener(
+                'transitionend',
+                () => {
+                    if (toast.isConnected) toast.remove();
+                },
+                { once: true }
+            );
         }
-    }, 5000);
+    }, CONFIG.UI.TOAST_DURATION);
 }
