@@ -1,7 +1,6 @@
 // js/ui.js
 import { initMap } from './map.js';
 import { mapState } from './state.js';
-import { CONFIG } from './config.js';
 
 let activeCard = null;
 let trapFocusHandler = null;
@@ -23,8 +22,12 @@ export function setupCardInteractions() {
         const location = card.querySelector('.location-tag');
 
         if (title && location) {
-            if (!title.id) title.id = `${card.id}-title`;
-            if (!location.id) location.id = `${card.id}-location`;
+            if (!title.id) {
+                title.id = `${card.id}-title`;
+            }
+            if (!location.id) {
+                location.id = `${card.id}-location`;
+            }
 
             card.setAttribute('aria-labelledby', `${title.id} ${location.id}`);
         }
@@ -39,7 +42,9 @@ export function setupCardInteractions() {
         }
 
         card.addEventListener('click', (e) => {
-            if (activeCard || e.target.closest('.close-button')) return;
+            if (activeCard || e.target.closest('.close-button')) {
+                return;
+            }
             expandCard(card);
         });
 
@@ -83,7 +88,9 @@ function expandCard(card) {
         'animationend',
         () => {
             const closeBtn = card.querySelector('.close-button');
-            if (closeBtn) closeBtn.focus();
+            if (closeBtn) {
+                closeBtn.focus();
+            }
 
             // Ensure map size is correct after animation
             if (mapState.currentMap) {
@@ -135,7 +142,9 @@ function expandCard(card) {
         if (lat && lng && mapId) {
             // Add loading state
             const container = document.getElementById(mapId);
-            if (container) container.classList.add('map-loading');
+            if (container) {
+                container.classList.add('map-loading');
+            }
 
             const title = card.querySelector('h2') ? card.querySelector('h2').textContent : slug;
             initMap(mapId, [parseFloat(lat), parseFloat(lng)], slug, title);

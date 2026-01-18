@@ -211,6 +211,13 @@ p {
     max-width: 900px;
     margin: 0 auto;
     /* Removed default animation here to rely on JS or staggered children */
+
+    /* Parallax Defaults */
+    --scroll-offset: 0;
+    transform: translateY(calc(var(--scroll-offset) * 0.5px)) scale(max(0.9, 1 - var(--scroll-offset) * 0.0005));
+    opacity: calc(1 - var(--scroll-offset) / 600);
+    filter: blur(calc(var(--scroll-offset) * 0.02px));
+    will-change: transform, opacity, filter;
 }
 
 .app-header h1 {
@@ -317,6 +324,9 @@ p {
     /* Initial Scroll State */
     opacity: 0;
     transform: translateY(40px) scale(0.98);
+
+    /* Staggered Entrance */
+    transition-delay: calc(var(--stagger-index, 0) * 50ms);
 }
 
 .card.in-view {

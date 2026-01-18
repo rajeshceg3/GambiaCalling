@@ -2,6 +2,9 @@ import js from '@eslint/js';
 import globals from 'globals';
 
 export default [
+    {
+        ignores: ['verification/', 'assets/'],
+    },
     js.configs.recommended,
     {
         languageOptions: {
@@ -14,8 +17,15 @@ export default [
             sourceType: 'module',
         },
         rules: {
-            'no-unused-vars': 'warn',
+            'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
             'no-console': 'warn',
+            'eqeqeq': ['error', 'always'],
+            'curly': ['error', 'all'],
+            'no-var': 'error',
+            'prefer-const': 'error',
+            'no-eval': 'error',
+            'no-implied-eval': 'error',
+            'strict': ['error', 'global'],
         },
     },
 ];
