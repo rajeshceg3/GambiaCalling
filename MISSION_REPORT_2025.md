@@ -29,13 +29,13 @@ The target repository has successfully transitioned from "Field Ready" to **"Ope
 - **Status:** **MONITORED**.
 - **Detail:** `style-src 'unsafe-inline'` remains active. While necessary for Leaflet and some dynamic JS animations (`js/animations.js`), we should strive to minimize its footprint.
 - **Mitigation:**
-  1.  Refactor dynamic animations to use CSS Custom Properties (Variables) where possible, allowing `style` attribute usage to be potentially restricted in the future (though `style-src-attr` might still be needed).
-  2.  Maintain strict strictness on `script-src`.
+    1.  Refactor dynamic animations to use CSS Custom Properties (Variables) where possible, allowing `style` attribute usage to be potentially restricted in the future (though `style-src-attr` might still be needed).
+    2.  Maintain strict strictness on `script-src`.
 
 ### B. AUTOMATION BLIND SPOTS
 
 - **Vector:** Verification Gaps.
-- **Detail:** While the test suite covers functionality, it does not explicitly verify the *transient* states (like the skeleton loading pulse) which are critical for Perceived Performance.
+- **Detail:** While the test suite covers functionality, it does not explicitly verify the _transient_ states (like the skeleton loading pulse) which are critical for Perceived Performance.
 - **Mitigation:** Implement specific Playwright assertions for the `.map-loading` state.
 
 ### C. CODE DISCIPLINE
