@@ -4,10 +4,10 @@ test.describe('UX: Visual Feedback', () => {
     test('should show skeleton pulse while map is loading', async ({ page }) => {
         // Intercept map tile requests to artificially delay them
         // CartoDB tiles usually look like: https://a.basemaps.cartocdn.com/rastertiles/voyager/...
-        await page.route('**/*.png', async route => {
+        await page.route('**/*.png', async (route) => {
             if (route.request().url().includes('basemaps.cartocdn.com')) {
                 // Add a delay to simulate slow network
-                await new Promise(f => setTimeout(f, 1000));
+                await new Promise((f) => setTimeout(f, 1000));
             }
             await route.continue();
         });

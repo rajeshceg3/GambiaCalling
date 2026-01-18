@@ -19,13 +19,13 @@ export default [
         rules: {
             'no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
             'no-console': 'warn',
-            'eqeqeq': ['error', 'always'],
-            'curly': ['error', 'all'],
+            eqeqeq: ['error', 'always'],
+            curly: ['error', 'all'],
             'no-var': 'error',
             'prefer-const': 'error',
             'no-eval': 'error',
             'no-implied-eval': 'error',
-            'strict': ['error', 'global'],
+            strict: ['error', 'global'],
         },
     },
 ];
