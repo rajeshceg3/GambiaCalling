@@ -19,7 +19,9 @@ export function initMap(containerId, coords, slug, title) {
     }
 
     const mapContainer = document.getElementById(containerId);
-    if (!mapContainer) return;
+    if (!mapContainer) {
+        return;
+    }
 
     // CartoDB Voyager - Minimal & Clean
     const map = L.map(containerId, {
@@ -42,7 +44,9 @@ export function initMap(containerId, coords, slug, title) {
     });
 
     const removeLoading = () => {
-        if (mapContainer) mapContainer.classList.remove('map-loading');
+        if (mapContainer) {
+            mapContainer.classList.remove('map-loading');
+        }
     };
 
     tileLayer.on('load', removeLoading);

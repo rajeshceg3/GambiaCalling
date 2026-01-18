@@ -44,9 +44,10 @@ export function setupScrollAnimations() {
         // Add a base delay based on index to force a "wave" effect on initial load
         // This helps if multiple cards are in view at once
         if (shouldAnimate) {
-            card.style.transitionDelay = `${index * CONFIG.ANIMATION.DELAY.STAGGER_BASE}ms`;
+            // Use CSS variable for clean CSP-friendly logic
+            card.style.setProperty('--stagger-index', index);
         } else {
-            card.style.transitionDelay = '0ms';
+            card.style.setProperty('--stagger-index', 0);
         }
         observer.observe(card);
     });
@@ -61,15 +62,11 @@ export function setupScrollAnimations() {
             'scroll',
             () => {
                 const scrolled = window.pageYOffset;
+                // Only animate if within range (0 to 800px)
                 if (!ticking && scrolled < 800) {
                     window.requestAnimationFrame(() => {
-                        // Parallax speed: slower than scroll
-                        // Add a subtle scale effect for depth
-                        const scale = 1 - scrolled * 0.0005;
-                        header.style.transform = `translateY(${scrolled * 0.5}px) scale(${Math.max(0.9, scale)})`;
-                        header.style.opacity = 1 - scrolled / 600;
-                        // Add blur as it goes out of view
-                        header.style.filter = `blur(${scrolled / 50}px)`;
+                        // Update the custom property to drive the CSS calculation
+                        header.style.setProperty('--scroll-offset', scrolled);
                         ticking = false;
                     });
                     ticking = true;

@@ -20,7 +20,9 @@ export function setupGlobalErrorHandling() {
 
 function showSystemErrorToast(message) {
     // Prevent spamming toasts
-    if (document.querySelector('.error-toast')) return;
+    if (document.querySelector('.error-toast')) {
+        return;
+    }
 
     const toast = document.createElement('div');
     toast.className = 'error-toast';
@@ -38,7 +40,9 @@ function showSystemErrorToast(message) {
             toast.addEventListener(
                 'transitionend',
                 () => {
-                    if (toast.isConnected) toast.remove();
+                    if (toast.isConnected) {
+                        toast.remove();
+                    }
                 },
                 { once: true }
             );
