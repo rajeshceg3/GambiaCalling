@@ -7,6 +7,11 @@ import { CONFIG } from './config.js';
  *
  * This module ensures that elements animate in as the user scrolls, providing a
  * "visual journey" feel. It also handles the parallax effect for the header text.
+ *
+ * CSP NOTE: We prioritize using CSS Custom Properties (Variables) via `style.setProperty`
+ * rather than manipulating inline styles directly (e.g., `style.transform`).
+ * This maintains a cleaner DOM and prepares for stricter CSP policies in the future,
+ * although `style-src 'unsafe-inline'` is currently required for Leaflet.
  */
 export function setupScrollAnimations() {
     const observerOptions = {
