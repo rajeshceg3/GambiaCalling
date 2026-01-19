@@ -52,6 +52,10 @@ export function initMap(containerId, coords, slug, title) {
     tileLayer.on('load', removeLoading);
     tileLayer.on('tileerror', removeLoading); // Ensure loading state is removed even on error
 
+    // Safety net: Force remove loading state after 5 seconds
+    // This handles cases where tile events might be suppressed or network hangs indefinitely
+    setTimeout(removeLoading, 5000);
+
     tileLayer.addTo(map);
 
     // Custom Animated Marker
@@ -111,7 +115,7 @@ export function initMap(containerId, coords, slug, title) {
                 });
             } else if (el) {
                 // Ensure visibility if animation is skipped
-                el.style.opacity = '1';
+                el.style.setProperty('opacity', '1');
             }
         });
     });
