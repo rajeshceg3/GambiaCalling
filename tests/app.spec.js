@@ -28,7 +28,8 @@ test.describe('Gambia Visual Journey', () => {
         await card.click();
 
         await expect(card).toHaveClass(/expanded/);
-        await expect(card).toHaveAttribute('aria-expanded', 'true');
+        // Note: aria-expanded is removed when expanded to avoid nested interactive semantics issues on generic divs
+        await expect(card).not.toHaveAttribute('aria-expanded');
         await expect(page.locator('body')).toHaveClass(/has-expanded-card/);
 
         const closeBtn = card.locator('.close-button');
@@ -39,6 +40,7 @@ test.describe('Gambia Visual Journey', () => {
         const card = page.locator('#card-kachikally');
         await card.click();
         await expect(card).toHaveClass(/expanded/);
+        await expect(card).not.toHaveAttribute('aria-expanded');
 
         // Wait for transition to complete so the close button is interactable
         // CSS transition is around 0.8s.
