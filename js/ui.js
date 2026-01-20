@@ -82,6 +82,13 @@ function expandCard(card) {
     card.setAttribute('aria-expanded', 'true');
     card.classList.add('expanded');
 
+    // Accessibility: Remove role="button" when expanded as it now contains other interactive elements
+    // (Nested Interactive Controls violation). It acts more like a dialog/region now.
+    // Also remove aria-expanded as it is not valid on a generic div without a specific role.
+    card.removeAttribute('role');
+    card.removeAttribute('tabindex');
+    card.removeAttribute('aria-expanded');
+
     // Focus Management: Wait for expansion animation to finish to prevent "focus flying"
     // The card uses a CSS animation for expansion
     card.addEventListener(
@@ -169,6 +176,10 @@ function collapseCard(card) {
 
     card.classList.remove('expanded');
     card.setAttribute('aria-expanded', 'false');
+
+    // Accessibility: Restore role="button"
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
 
     if (trapFocusHandler) {
         card.removeEventListener('keydown', trapFocusHandler);
