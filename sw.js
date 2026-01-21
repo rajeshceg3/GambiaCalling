@@ -19,9 +19,9 @@ const ASSETS = [
     '/assets/albert-market.svg',
     '/assets/janjanbureh.svg',
     '/assets/og-image.jpg',
-    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css',
-    'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js',
-    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400;0,600;1,400&display=swap',
+    '/assets/vendor/leaflet/leaflet.css',
+    '/assets/vendor/leaflet/leaflet.js',
+    '/assets/vendor/fonts/fonts.css',
 ];
 
 self.addEventListener('install', (event) => {

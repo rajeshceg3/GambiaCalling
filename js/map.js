@@ -54,7 +54,7 @@ export function initMap(containerId, coords, slug, title) {
 
     // Safety net: Force remove loading state after 5 seconds
     // This handles cases where tile events might be suppressed or network hangs indefinitely
-    setTimeout(removeLoading, 5000);
+    setTimeout(removeLoading, CONFIG.MAP.LOADING_TIMEOUT);
 
     tileLayer.addTo(map);
 
@@ -88,8 +88,8 @@ export function initMap(containerId, coords, slug, title) {
                 const entranceAnimation = el.animate(
                     [
                         { transform: 'translate3d(0, -50px, 0) scale(0)', opacity: 0 },
-                        { transform: 'translate3d(0, 0, 0) scale(1.2)', opacity: 1, offset: 0.6 },
-                        { transform: 'translate3d(0, -10px, 0) scale(0.9)', opacity: 1, offset: 0.8 },
+                        { transform: 'translate3d(0, 0, 0) scale(1.2)', opacity: 1, offset: CONFIG.ANIMATION.KEYFRAMES.BOUNCE_PEAK },
+                        { transform: 'translate3d(0, -10px, 0) scale(0.9)', opacity: 1, offset: CONFIG.ANIMATION.KEYFRAMES.BOUNCE_SETTLE },
                         { transform: 'translate3d(0, 0, 0) scale(1)', opacity: 1 },
                     ],
                     {
