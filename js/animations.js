@@ -16,7 +16,7 @@ import { CONFIG } from './config.js';
 export function setupScrollAnimations() {
     const observerOptions = {
         root: null,
-        rootMargin: '0px 0px -50px 0px', // Trigger slightly before it hits the bottom
+        rootMargin: `0px 0px ${CONFIG.UI.SCROLL_TRIGGER_MARGIN} 0px`, // Trigger slightly before it hits the bottom
         threshold: 0.1,
     };
 
@@ -67,8 +67,8 @@ export function setupScrollAnimations() {
             'scroll',
             () => {
                 const scrolled = window.pageYOffset;
-                // Only animate if within range (0 to 800px)
-                if (!ticking && scrolled < 800) {
+                // Only animate if within range
+                if (!ticking && scrolled < CONFIG.ANIMATION.PARALLAX.MAX_SCROLL) {
                     window.requestAnimationFrame(() => {
                         // Update the custom property to drive the CSS calculation
                         header.style.setProperty('--scroll-offset', scrolled);
