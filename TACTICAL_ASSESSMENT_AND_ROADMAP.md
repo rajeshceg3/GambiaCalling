@@ -3,61 +3,64 @@
 **DATE:** 2025-05-23
 **OPERATIVE:** Jules (Lead Engineer / NAVSPECWAR)
 **TARGET:** Repository `gambia-visual-journey`
-**STATUS:** **READY FOR DEPLOYMENT**
+**MISSION:** Production Readiness & User Experience Elevation
+**STATUS:** **IN PROGRESS**
 
 ---
 
-## 1. SITUATION REPORT
+## 1. SITUATION REPORT (SITREP)
 
-The target repository has been subjected to a rigorous Tier-1 Production Assessment. While the codebase exhibited high operational discipline, a **critical semantic vulnerability** was detected in the frontend architecture which compromised accessibility compliance (WCAG 4.1.2) and operational semantics during the card expansion state.
+The target repository `gambia-visual-journey` functions as an interactive visual gallery with mapping capabilities. The codebase demonstrates high operational discipline with a modular ES6 architecture, integrated PWA capabilities, and a robust testing suite.
 
-### Identified Critical Vulnerability: "Nested Interactive Controls"
-- **Threat:** Interactive cards utilized `role="button"` while containing nested interactive elements (Close Button, Map Controls) in their DOM subtree.
-- **Impact:** Screen readers and assistive technologies would fail to properly parse the nested controls, creating a "dead zone" for users relying on non-visual navigation.
-- **Severity:** **HIGH** (Violates basic accessibility compliance).
-
----
-
-## 2. EXECUTED MANEUVERS
-
-### A. Dynamic Role Switching (Drill & Fix)
-Implemented a tactical state-switch in `js/ui.js`:
-- **Collapsed State:** Card retains `role="button"` and `tabindex="0"`. It acts as a trigger.
-- **Expanded State:** Card is stripped of `role="button"`, `tabindex`, and `aria-expanded`. It morphs into a generic container (or semantic region), validating the presence of child interactive elements.
-
-### B. Verification Perimeter (New Test Suite)
-- **Action:** Created `tests/a11y-expanded.spec.js` to specifically target the expanded card state.
-- **Result:** Confirmed the vulnerability (Failure) -> Applied Fix -> Confirmed Resolution (Pass).
-- **Status:** **GREEN**.
-
-### C. Test Suite Calibration
-- **Action:** Updated `tests/app.spec.js` to align with the new semantic behavior (expecting removal of `aria-expanded` on the container itself).
-- **Result:** Full suite (27 tests) passing across Chromium, Firefox, and WebKit.
+### Operational Strengths (Assets):
+*   **Architecture:** Clean separation of concerns (UI, Map, State, Animations).
+*   **Resilience:** Service Worker implementation for offline capability.
+*   **Accessibility:** "Dynamic Role Switching" strategy successfully neutralizes "Nested Interactive Control" violations.
+*   **Testing:** Playwright suite covers functional and accessibility scenarios across all major browser engines (Chromium, Firefox, WebKit).
 
 ---
 
-## 3. MISSION ROADMAP (READY FOR EXECUTION)
+## 2. TACTICAL GAP ANALYSIS
 
-The repository is now fully compliant. The following strategic directives are recommended for the post-deployment phase:
+Despite the solid foundation, a deep-dive analysis reveals specific areas where the application falls short of "Elite" production standards, particularly in User Experience (UX) and visual feedback loops.
 
-### Phase 1: Deployment (Immediate)
-- Deploy the current artifacts. The HTML/JS core is solid.
-- **Status:** GO.
+### A. User Experience (UX) Deficiencies
+*   **Visual Feedback (Focus):** The current focus indicator (`rgba(162, 155, 254, 0.4)`) lacks sufficient contrast on light backgrounds, potentially confusing keyboard navigators in high-glare environments.
+*   **Motion Dynamics:** Animation curves are standard. The transition from "Card" to "Expanded View" lacks the "spring" and weight required for a premium, native-app feel.
+*   **Loading States:** The map loading skeleton is generic and does not perfectly align with the target container's visual weight, causing a minor visual disconnect during data fetching.
 
-### Phase 2: Security Hardening (Sustainment)
-- **Objective:** Eliminate `unsafe-inline` from CSP.
-- **Tactic:** Refactor Leaflet.js style injection or implement a Nonce-based CSP strategy on the server side (if applicable).
-- **Priority:** Medium.
+### B. Code Hardening & Documentation
+*   **Documentation:** While core modules are documented, `js/ui.js` and `js/main.js` lack the comprehensive JSDoc coverage required for long-term maintainability by junior operatives.
+*   **Security (CSP):** The Content Security Policy allows `'unsafe-inline'` for styles. While currently necessary for Leaflet.js dynamic marker positioning, this remains a known surface area for monitoring.
 
-### Phase 3: Performance Optimization (Sustainment)
-- **Objective:** Vendor external dependencies (`leaflet.js`, `leaflet.css`, fonts).
-- **Tactic:** Download assets to `assets/vendor/` to remove reliance on `unpkg.com` and `fonts.googleapis.com` for true air-gapped resilience.
-- **Priority:** Low (unless mission requires offline-first/intranet deployment).
+---
+
+## 3. IMPLEMENTATION PLAN (THE ROADMAP)
+
+The following directives are authorized for immediate execution to elevate the repository to Tier-1 status.
+
+### Phase 1: Visual Fortification (UX/UI)
+*   **Objective:** Maximize interface clarity and interaction fluidity.
+*   **Tactics:**
+    1.  **High-Contrast Focus:** Replace soft glow focus rings with a "Double-Border" strategy (White spacer + High Contrast Color) to ensure visibility on *any* background.
+    2.  **Kinetic Animations:** Refine CSS `cubic-bezier` timing functions to `cubic-bezier(0.34, 1.56, 0.64, 1)` for "snappy" entrance and exit animations.
+    3.  **Skeleton Refinement:** Update the `.map-loading` state to mirror the exact border-radius and background luminance of the final map container.
+
+### Phase 4: Code Hardening
+*   **Objective:** Ensure absolute maintainability.
+*   **Tactics:**
+    1.  **Documentation Audit:** Enforce 100% JSDoc coverage on all `js/*.js` modules, specifically detailing the "Dynamic Role Switching" logic for future maintainers.
+
+### Phase 5: Verification & Deployment
+*   **Objective:** Confirm mission success.
+*   **Tactics:**
+    1.  Execute full Playwright suite (`tests/app.spec.js`).
+    2.  Execute Accessibility suite (`tests/a11y-expanded.spec.js`).
 
 ---
 
 **CONCLUSION:**
-The critical A11y gap has been neutralized. The system is verified, tested, and ready for active duty.
+Execution of this roadmap will transform the repository from "Functional" to "Exceptional," ensuring a robust, accessible, and delightful experience for the end user.
 
 _Strength and Honor,_
 **Jules**

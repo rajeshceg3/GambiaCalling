@@ -1,8 +1,22 @@
-// js/ui.js
+/**
+ * @file js/ui.js
+ * @description Manages the primary user interface interactions, specifically the Card Expansion/Collapse logic.
+ * @module UI
+ * @requires map.js
+ * @requires state.js
+ */
+
 import { initMap } from './map.js';
 import { mapState } from './state.js';
 
+/**
+ * @type {HTMLElement|null} activeCard - The currently expanded card element, or null if none.
+ */
 let activeCard = null;
+
+/**
+ * @type {Function|null} trapFocusHandler - The bound event listener for the focus trap, stored to allow removal.
+ */
 let trapFocusHandler = null;
 
 /**
@@ -10,14 +24,16 @@ let trapFocusHandler = null;
  * This includes:
  * - Click handlers for expansion/collapse.
  * - Keyboard accessibility (Enter/Space to expand, Escape to close).
- * - ARIA attribute management.
+ * - ARIA attribute management (labelling).
  * - Focus trapping within expanded cards.
+ *
+ * @function setupCardInteractions
  */
 export function setupCardInteractions() {
     const cards = document.querySelectorAll('.card');
 
     cards.forEach((card) => {
-        // Palette: Enhance accessibility
+        // Accessibility: Associate headers and location tags for robust labelling
         const title = card.querySelector('h2');
         const location = card.querySelector('.location-tag');
 
@@ -32,6 +48,7 @@ export function setupCardInteractions() {
             card.setAttribute('aria-labelledby', `${title.id} ${location.id}`);
         }
 
+        // Configure Close Button
         const closeBtn = card.querySelector('.close-button');
         if (closeBtn) {
             closeBtn.setAttribute('title', 'Close card');
@@ -41,13 +58,16 @@ export function setupCardInteractions() {
             });
         }
 
+        // Card Click Handler
         card.addEventListener('click', (e) => {
+            // Prevent triggering if clicking the close button or if a card is already active
             if (activeCard || e.target.closest('.close-button')) {
                 return;
             }
             expandCard(card);
         });
 
+        // Keyboard Activation (Enter/Space)
         card.addEventListener('keydown', (e) => {
             if ((e.key === 'Enter' || e.key === ' ') && !activeCard) {
                 e.preventDefault();
@@ -56,7 +76,7 @@ export function setupCardInteractions() {
         });
     });
 
-    // Handle Escape key
+    // Global Escape Key Listener for closing modal
     document.addEventListener('keydown', (e) => {
         if (e.key === 'Escape' && activeCard) {
             collapseCard(activeCard);
@@ -66,12 +86,15 @@ export function setupCardInteractions() {
 
 /**
  * Expands a card to fill the screen and initializes its map.
- * Handles:
- * - Visual expansion animation (via CSS classes).
- * - Focus management (trapping focus).
- * - Map initialization.
- * - Body scroll locking.
  *
+ * **Tactical Overview:**
+ * 1. Locks body scroll.
+ * 2. Applies visual expansion classes.
+ * 3. **Dynamic Role Switching:** Removes `role="button"` to avoid "Nested Interactive Controls" violation.
+ * 4. Initializes Leaflet map via `requestAnimationFrame` for performance.
+ * 5. Traps focus within the card boundary.
+ *
+ * @function expandCard
  * @param {HTMLElement} card - The card element to expand.
  */
 function expandCard(card) {
@@ -82,15 +105,17 @@ function expandCard(card) {
     card.setAttribute('aria-expanded', 'true');
     card.classList.add('expanded');
 
-    // Accessibility: Remove role="button" when expanded as it now contains other interactive elements
-    // (Nested Interactive Controls violation). It acts more like a dialog/region now.
-    // Also remove aria-expanded as it is not valid on a generic div without a specific role.
+    // [CRITICAL] Accessibility: Dynamic Role Switching
+    // When expanded, the card acts as a modal/region containing interactive elements (Map, Buttons).
+    // Keeping role="button" would cause screen readers to treat children as part of a single button,
+    // violating WCAG 4.1.2 (Nested Interactive Controls).
+    // We remove the role and tabindex to transform it into a generic container.
     card.removeAttribute('role');
     card.removeAttribute('tabindex');
     card.removeAttribute('aria-expanded');
 
-    // Focus Management: Wait for expansion animation to finish to prevent "focus flying"
-    // The card uses a CSS animation for expansion
+    // Focus Management: Wait for expansion animation to finish to prevent "focus flying".
+    // The visual transition is driven by CSS.
     card.addEventListener(
         'animationend',
         () => {
@@ -99,7 +124,7 @@ function expandCard(card) {
                 closeBtn.focus();
             }
 
-            // Ensure map size is correct after animation
+            // Invalidate map size to ensure tiles render correctly in the new viewport dimensions
             if (mapState.currentMap) {
                 mapState.currentMap.invalidateSize();
             }
@@ -107,7 +132,8 @@ function expandCard(card) {
         { once: true }
     );
 
-    // Trap Focus
+    // [CRITICAL] Focus Trap Implementation
+    // Prevents keyboard users from tabbing outside the modal while it is open.
     const focusableElements = card.querySelectorAll(
         'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'
     );
@@ -118,12 +144,12 @@ function expandCard(card) {
 
         trapFocusHandler = function (e) {
             if (e.key === 'Tab') {
-                if (e.shiftKey) {
+                if (e.shiftKey) { // Shift + Tab
                     if (document.activeElement === firstElement) {
                         e.preventDefault();
                         lastElement.focus();
                     }
-                } else {
+                } else { // Tab
                     if (document.activeElement === lastElement) {
                         e.preventDefault();
                         firstElement.focus();
@@ -135,10 +161,9 @@ function expandCard(card) {
         card.addEventListener('keydown', trapFocusHandler);
     }
 
-    // Initialize Map
-    // We start initialization in the next frame to allow the browser to register the
-    // display:block change, but we don't wait for the full animation to finish
-    // so we can preload tiles while the card expands.
+    // Map Initialization
+    // We utilize requestAnimationFrame to ensure the DOM has reconciled the 'display: block'
+    // state of the container before Leaflet attempts to calculate dimensions.
     requestAnimationFrame(() => {
         const lat = card.getAttribute('data-lat');
         const lng = card.getAttribute('data-lng');
@@ -147,7 +172,7 @@ function expandCard(card) {
         const slug = card.id.replace('card-', '');
 
         if (lat && lng && mapId) {
-            // Add loading state
+            // Apply visual loading state
             const container = document.getElementById(mapId);
             if (container) {
                 container.classList.add('map-loading');
@@ -160,14 +185,16 @@ function expandCard(card) {
 }
 
 /**
- * Collapses the currently expanded card.
- * Handles:
- * - Removing CSS classes.
- * - Restoring body scroll.
- * - Removing focus trap.
- * - Cleaning up the map instance.
- * - Returning focus to the card.
+ * Collapses the currently expanded card and resets state.
  *
+ * **Tactical Overview:**
+ * 1. Removes expansion classes.
+ * 2. Restores `role="button"` for interaction.
+ * 3. Releases focus trap.
+ * 4. Destroys map instance to free memory.
+ * 5. Returns focus to the card trigger.
+ *
+ * @function collapseCard
  * @param {HTMLElement} card - The card element to collapse.
  */
 function collapseCard(card) {
@@ -177,18 +204,23 @@ function collapseCard(card) {
     card.classList.remove('expanded');
     card.setAttribute('aria-expanded', 'false');
 
-    // Accessibility: Restore role="button"
+    // [CRITICAL] Accessibility: Restore Interactive Role
+    // The card returns to being a single interactive trigger.
     card.setAttribute('role', 'button');
     card.setAttribute('tabindex', '0');
 
+    // Release Focus Trap
     if (trapFocusHandler) {
         card.removeEventListener('keydown', trapFocusHandler);
         trapFocusHandler = null;
     }
 
     activeCard = null;
+
+    // Return focus to the card so the user doesn't lose their place in the DOM
     card.focus();
 
+    // Clean up Leaflet instance
     if (mapState.currentMap) {
         mapState.currentMap.remove();
         mapState.currentMap = null;
