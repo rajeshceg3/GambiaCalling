@@ -8,6 +8,8 @@
 
 import { initMap } from './map.js';
 import { mapState } from './state.js';
+import { HistoryManager } from './history.js';
+import { showToast } from './error-handler.js';
 
 /**
  * @type {HTMLElement|null} activeCard - The currently expanded card element, or null if none.
@@ -58,6 +60,23 @@ export function setupCardInteractions() {
             });
         }
 
+        // Configure Share Button
+        const shareBtn = card.querySelector('.share-button');
+        if (shareBtn) {
+            shareBtn.setAttribute('title', 'Share location');
+            shareBtn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const url = window.location.href;
+                navigator.clipboard.writeText(url)
+                    .then(() => {
+                        showToast('Link copied to clipboard!', 'success');
+                    })
+                    .catch(() => {
+                        showToast('Failed to copy link.', 'error');
+                    });
+            });
+        }
+
         // Card Click Handler
         card.addEventListener('click', (e) => {
             // Prevent triggering if clicking the close button or if a card is already active
@@ -85,7 +104,7 @@ export function setupCardInteractions() {
 
     // History API: Handle Browser Back Button
     // If the user presses "Back" while a card is open, we close it without triggering another history.back()
-    window.addEventListener('popstate', (event) => {
+    HistoryManager.init(() => {
         if (activeCard) {
             collapseCard(activeCard, { historyBack: false });
         }
@@ -130,10 +149,10 @@ function expandCard(card, { pushHistory = true } = {}) {
     // This ensures users don't accidentally leave the SPA when trying to close a card
     const slug = card.id.replace('card-', '');
     if (pushHistory) {
-        history.pushState({ cardId: card.id }, '', `#${slug}`);
+        HistoryManager.pushState(card.id, slug);
     } else {
         // Update state object for current entry so popstate handling works correctly
-        history.replaceState({ cardId: card.id }, '', `#${slug}`);
+        HistoryManager.replaceState(card.id, slug);
     }
 
     card.setAttribute('aria-expanded', 'true');
@@ -237,8 +256,8 @@ function expandCard(card, { pushHistory = true } = {}) {
 function collapseCard(card, { historyBack = true } = {}) {
     // History Cleanup: Revert URL if this was a UI-triggered collapse
     // We only go back if we are sure the current state matches the card we are closing
-    if (historyBack && history.state && history.state.cardId === card.id) {
-        history.back();
+    if (historyBack) {
+        HistoryManager.revertState(card.id);
     }
 
     document.body.style.overflow = '';
