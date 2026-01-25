@@ -82,6 +82,27 @@ export function setupCardInteractions() {
             collapseCard(activeCard);
         }
     });
+
+    // History API: Handle Browser Back Button
+    // If the user presses "Back" while a card is open, we close it without triggering another history.back()
+    window.addEventListener('popstate', (event) => {
+        if (activeCard) {
+            collapseCard(activeCard, { historyBack: false });
+        }
+    });
+
+    // Deep Linking: Check URL hash on load to restore state
+    const hash = window.location.hash.slice(1);
+    if (hash) {
+        const targetCard = document.getElementById(`card-${hash}`);
+        if (targetCard) {
+            // Expand without pushing new history entry since we are already there
+            // Delay slightly to ensure layout is stable for animations/transitions
+            setTimeout(() => {
+                 expandCard(targetCard, { pushHistory: false });
+            }, 100);
+        }
+    }
 }
 
 /**
@@ -96,12 +117,25 @@ export function setupCardInteractions() {
  *
  * @function expandCard
  * @param {HTMLElement} card - The card element to expand.
+ * @param {Object} [options] - Configuration options.
+ * @param {boolean} [options.pushHistory=true] - Whether to push a new history state.
  */
-function expandCard(card) {
+function expandCard(card, { pushHistory = true } = {}) {
     document.body.style.overflow = 'hidden';
     document.body.classList.add('has-expanded-card');
 
     activeCard = card;
+
+    // History API Integration: Push state to allow "Back" button to close modal
+    // This ensures users don't accidentally leave the SPA when trying to close a card
+    const slug = card.id.replace('card-', '');
+    if (pushHistory) {
+        history.pushState({ cardId: card.id }, '', `#${slug}`);
+    } else {
+        // Update state object for current entry so popstate handling works correctly
+        history.replaceState({ cardId: card.id }, '', `#${slug}`);
+    }
+
     card.setAttribute('aria-expanded', 'true');
     card.classList.add('expanded');
 
@@ -193,11 +227,20 @@ function expandCard(card) {
  * 3. Releases focus trap.
  * 4. Destroys map instance to free memory.
  * 5. Returns focus to the card trigger.
+ * 6. Manages History API to ensure URL cleanliness.
  *
  * @function collapseCard
  * @param {HTMLElement} card - The card element to collapse.
+ * @param {Object} [options] - Configuration options.
+ * @param {boolean} [options.historyBack=true] - Whether to call history.back() (set to false if triggered by popstate).
  */
-function collapseCard(card) {
+function collapseCard(card, { historyBack = true } = {}) {
+    // History Cleanup: Revert URL if this was a UI-triggered collapse
+    // We only go back if we are sure the current state matches the card we are closing
+    if (historyBack && history.state && history.state.cardId === card.id) {
+        history.back();
+    }
+
     document.body.style.overflow = '';
     document.body.classList.remove('has-expanded-card');
 

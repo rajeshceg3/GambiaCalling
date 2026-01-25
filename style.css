@@ -501,6 +501,16 @@ body.has-expanded-card::after {
     animation: fade-in 0.5s ease-out forwards;
 }
 
+/*
+   [CRITICAL FIX]
+   Remove perspective from container when card is expanded.
+   This prevents the 'position: fixed' card from being trapped in the container's
+   stacking context, ensuring it correctly overlays the body::after backdrop.
+*/
+body.has-expanded-card .gallery-container {
+    perspective: none;
+}
+
 .card.expanded .card-visual {
     height: 100%;
     grid-column: 1 / 2;

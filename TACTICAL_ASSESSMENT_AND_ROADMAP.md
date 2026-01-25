@@ -1,79 +1,93 @@
-# TACTICAL ASSESSMENT & MISSION ROADMAP
+# TACTICAL ASSESSMENT AND ROADMAP
 
-**DATE:** 2025-05-23
-**OPERATIVE:** Jules (Lead Engineer / NAVSPECWAR)
-**TARGET:** Repository `gambia-visual-journey`
-**MISSION:** Production Readiness & User Experience Elevation
-**STATUS:** **MISSION READY (TIER 1)**
+**DATE:** 2025-05-15
+**SUBJECT:** REPOSITORY STATUS & STRATEGIC TRANSFORMATION PLAN
+**FROM:** LEAD ENGINEER (JULES)
+**TO:** MISSION COMMAND
+**STATUS:** CLASSIFIED - TIER 2 (OPERATIONAL) -> TARGET TIER 1 (MISSION READY)
 
 ---
 
 ## 1. EXECUTIVE SUMMARY
 
-The `gambia-visual-journey` repository has been successfully elevated to **Tier 1 Production Readiness**. Following a comprehensive tactical assessment, critical vulnerabilities in accessibility (contrast ratios) and environmental configuration (dependencies) have been neutralized. The system now demonstrates absolute code reliability, passing all automated verifications across Chromium, Firefox, and WebKit.
+The current application ("Gambia: A Visual Journey") represents a **solid tactical foundation**. It utilizes modern, vanilla ES6+ modules, a clean CSS architecture using variables, and high-standard accessibility practices (WCAG AA). The usage of Playwright for E2E testing demonstrates a commitment to reliability.
 
-### Operational Status:
-*   **Reliability:** 100% Test Pass Rate (36/36 Scenarios).
-*   **Security:** Strict CSP compliant (with necessary Leaflet exceptions).
-*   **Accessibility:** WCAG 2.1 AA Compliant (Verified via axe-core).
-*   **Performance:** Optimized asset loading and animation pipelines.
+ However, to achieve **Tier 1 Mission Readiness**, critical gaps in **User Experience (SPA Navigation)** and **System Hardening** must be addressed. The primary failure point is the lack of History API integration, causing the "Back Button" to eject users from the application rather than closing modals—a critical friction point in Single Page Applications.
 
 ---
 
-## 2. TACTICAL ANALYSIS (SITREP)
+## 2. SITUATIONAL ANALYSIS (SITREP)
 
-### A. Code Quality & Architecture
-The codebase employs a robust, modular ES6 architecture. Separation of concerns is strictly enforced between UI (`ui.js`), Logic (`map.js`), and State (`state.js`).
-*   **Strengths:** Clear module boundaries, JSDoc coverage, and "Dynamic Role Switching" for complex interactive components.
-*   **Status:** **SECURE**.
+### A. CODE QUALITY (STATUS: GOOD)
+- **Strengths:**
+    - Modular architecture (`js/main.js`, `js/ui.js`, etc.) ensures separation of concerns.
+    - CSS Variables and "organic" palette provide consistency and ease of maintenance.
+    - No jQuery or heavy framework dependencies (Pure Vanilla JS).
+- **Weaknesses:**
+    - JSDoc is present but lacks strict type definitions for some complex objects.
+    - `js/error-handler.js` relies on `console.log` placeholders for production telemetry.
 
-### B. Security Posture
-*   **Content Security Policy (CSP):** Implemented via `<meta>` tag.
-    *   *Risk Acceptance:* `style-src 'unsafe-inline'` remains active. This is a tactical necessity for Leaflet.js marker positioning. Mitigation is provided by strict `script-src` and `connect-src` directives.
-*   **Dependencies:** Audited and locked.
-*   **Status:** **HARDENED**.
+### B. USER EXPERIENCE (STATUS: ACCEPTABLE -> NEEDS IMPROVEMENT)
+- **Strengths:**
+    - High-quality animations (Parallax, Staggered Entrance, Marker Pulse).
+    - "Reduced Motion" support is correctly implemented.
+    - Focus management (Trapping) is robust.
+- **Critical Failures:**
+    - **Broken History Flow:** Opening a card does not update the URL. Clicking "Back" leaves the site. **Priority: CRITICAL.**
+    - **Loading States:** Map loading uses a basic spinner. A skeleton UI would feel more "native."
 
-### C. User Experience (UX) Vectors
-*   **Visual Feedback:** High-contrast focus rings (`--shadow-focus`) were **verified as present and effective**, ensuring navigation visibility in high-glare environments.
-*   **Motion:** Spring physics (`cubic-bezier(0.34, 1.56, 0.64, 1)`) were **verified as implemented**, providing a responsive, native-app feel.
-*   **Accessibility (Remediated):** Text contrast ratios were previously failing (2.9:1) but have been **corrected** to meet WCAG AA (4.5:1) standards.
-*   **Status:** **OPTIMIZED**.
-
----
-
-## 3. REMEDIATION LOG (COMPLETED ACTIONS)
-
-The following tactical interventions were executed to achieve current readiness:
-
-| ID | Priority | Vector | Action Taken | Outcome |
-|----|----------|--------|--------------|---------|
-| **FIX-01** | **CRITICAL** | **A11y** | **Contrast Reinforcement:** Darkened `--text-secondary` and `--accent-*` CSS variables to meet WCAG AA (4.5:1) standards. | **PASSED** (Firefox/Webkit/Chromium) |
-| **FIX-02** | **HIGH** | **Ops** | **Environment Stabilization:** Restored `node_modules` integrity and Playwright browser binaries. | **PASSED** (CI/CD Pipeline Restored) |
-| **FIX-03** | **MEDIUM** | **UX** | **Standardization:** Removed hardcoded color overrides for "Tanji" card to enforce variable consistency. | **PASSED** (Visual Consistency) |
+### C. SECURITY & RELIABILITY (STATUS: SOLID)
+- **Strengths:**
+    - CSP is defined in `index.html`.
+    - `target="_blank"` links use `rel="noopener noreferrer"`.
+- **Weaknesses:**
+    - CSP allows `'unsafe-inline'` for styles (Legacy Leaflet requirement, acceptable but monitor).
 
 ---
 
-## 4. STRATEGIC ROADMAP (FUTURE DIRECTIVES)
+## 3. STRATEGIC ROADMAP
 
-While the system is production-ready, continuous improvement is the standard. The following roadmap outlines the path to "Elite" status (Tier 0).
+### PHASE 1: UX DOMINANCE & NAVIGATION (IMMEDIATE ACTION)
+**Objective:** Eliminate user friction and establish a "Native App" feel.
 
-### Phase 2: Advanced Visual Polish (Priority: Medium)
-*   **Objective:** Enhance perceived performance during data fetching.
-*   **Tactic:** Replace the current "Spinner" loading state with a "Shimmering Skeleton" that mimics the map container's geometry perfectly.
-*   **Implementation:** Create a CSS-only gradient animation on `.card-map-container.map-loading`.
+1.  **Implement History API Integration (Operation "Deep Link"):**
+    -   *Tactic:* Modify `js/ui.js` to push state on Card Expand.
+    -   *Tactic:* Handle `popstate` to gracefully collapse cards.
+    -   *Impact:* Users remain in the app when navigating; enables sharing of specific locations via URL.
 
-### Phase 3: Infrastructure Hardening (Priority: Low)
-*   **Objective:** Eliminate `unsafe-inline` from CSP.
-*   **Tactic:** Investigate Leaflet.js nonce support or migrate to a vector-tile based renderer (e.g., MapLibre GL JS) that supports strict CSP.
+2.  **Enhance Micro-interactions:**
+    -   *Tactic:* Refine Close Button feedback (Tooltip/Active state).
+    -   *Tactic:* Ensure Map Loading state is visually consistent with the card design.
 
-### Phase 4: Global Reach (Priority: Low)
-*   **Objective:** Internationalization (i18n).
-*   **Tactic:** Extract hardcoded text strings into a JSON locale manifest to support future localization efforts.
+### PHASE 2: SYSTEM HARDENING (SECONDARY)
+**Objective:** Fortify the codebase against regression and ambiguity.
+
+1.  **Strict Typing Protocol:**
+    -   *Tactic:* Audit and update all JSDoc to include `@typedef` for complex structures.
+    -   *Tactic:* Treat warnings as errors in linting configuration.
+
+2.  **Telemetry & Error Boundaries:**
+    -   *Tactic:* Upgrade `js/error-handler.js` to support a mock telemetry service (preparing for production logging).
+
+### PHASE 3: PERFORMANCE OPTIMIZATION (TERTIARY)
+**Objective:** Achieve sub-second load times on 4G networks.
+
+1.  **Asset Optimization:**
+    -   *Tactic:* Convert SVG assets to WebP where appropriate for complex illustrations (though SVGs are currently fine).
+    -   *Tactic:* Implement aggressive caching strategies in Service Worker.
 
 ---
 
-**CONCLUSION:**
-Target repository is cleared for deployment. Maintain operational discipline and adhere to the roadmap for future enhancements.
+## 4. IMMEDIATE EXECUTION ORDERS
 
-_Strength and Honor,_
-**Jules**
+The following actions are authorized for immediate execution:
+
+1.  **Execute Phase 1.1:** Refactor `js/ui.js` to support History API.
+2.  **Verification:** Implement `tests/history.spec.js` to validate navigation flows.
+3.  **Submission:** Commit changes to the main branch.
+
+---
+
+**SIGNED:**
+*Jules*
+*Lead Engineer, Special Projects*
