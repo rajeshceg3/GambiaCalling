@@ -9,12 +9,12 @@ export default defineConfig({
     workers: process.env.CI ? 1 : undefined,
     reporter: 'html',
     use: {
-        baseURL: 'http://127.0.0.1:8080',
+        baseURL: process.env.PW_BASE_URL || 'http://127.0.0.1:8080',
         trace: 'on-first-retry',
     },
     webServer: {
-        command: 'npx http-server -p 8080',
-        url: 'http://127.0.0.1:8080',
+        command: 'npx http-server -p ' + (process.env.PW_PORT || '8080'),
+        url: process.env.PW_BASE_URL || 'http://127.0.0.1:8080',
         reuseExistingServer: !process.env.CI,
     },
     projects: [
