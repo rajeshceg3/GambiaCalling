@@ -32,16 +32,16 @@ export function initMap(containerId, coords, slug, title) {
     }).setView(coords, CONFIG.MAP.DEFAULT_ZOOM); // Zoom out slightly for context
 
     mapState.currentMap = map;
+    L.control.attribution({ position: 'bottomright', prefix: false }).addTo(map);
+    map.attributionControl.addAttribution('<a href="https://openfreemap.org" target="_blank" rel="noopener noreferrer">OpenFreeMap</a> <a href="https://www.openmaptiles.org/" target="_blank" rel="noopener noreferrer">&copy; OpenMapTiles</a> Data from <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a>');
 
     // Add zoom control to top-right manually
     L.control.zoom({ position: 'topright' }).addTo(map);
 
-    const tileLayer = L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
-        attribution:
-            '&copy; <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener noreferrer">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions" target="_blank" rel="noopener noreferrer">CARTO</a>',
-        subdomains: 'abcd',
-        maxZoom: 20,
-    });
+    // Warm paper basemap (worlds shared module): OpenFreeMap vector tiles,
+    // custom watercolor-wash style. Free public instance, no API key.
+    maplibregl.setWorkerUrl('assets/vendor/maplibre/maplibre-gl-csp-worker.js');
+    const tileLayer = L.maplibreGL({ style: window.WARM_MAP_STYLE });
 
     const removeLoading = () => {
         if (mapContainer) {
@@ -49,14 +49,19 @@ export function initMap(containerId, coords, slug, title) {
         }
     };
 
-    tileLayer.on('load', removeLoading);
-    tileLayer.on('tileerror', removeLoading); // Ensure loading state is removed even on error
+    tileLayer.addTo(map);
+
+    const glMap = tileLayer.getMaplibreMap();
+    if (glMap.loaded()) {
+        removeLoading();
+    } else {
+        glMap.once('load', removeLoading);
+        glMap.once('error', removeLoading); // Ensure loading state is removed even on error
+    }
 
     // Safety net: Force remove loading state after 5 seconds
     // This handles cases where tile events might be suppressed or network hangs indefinitely
     setTimeout(removeLoading, CONFIG.MAP.LOADING_TIMEOUT);
-
-    tileLayer.addTo(map);
 
     // Custom Animated Marker
     const customIcon = L.divIcon({

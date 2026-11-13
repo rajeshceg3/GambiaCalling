@@ -1,4 +1,4 @@
-const CACHE_NAME = 'gambia-visual-v1';
+const CACHE_NAME = 'gambia-visual-v2';
 const ASSETS = [
     '/',
     '/index.html',
@@ -21,6 +21,11 @@ const ASSETS = [
     '/assets/og-image.jpg',
     '/assets/vendor/leaflet/leaflet.css',
     '/assets/vendor/leaflet/leaflet.js',
+    '/assets/vendor/maplibre/maplibre-gl-csp.js',
+    '/assets/vendor/maplibre/maplibre-gl-csp-worker.js',
+    '/assets/vendor/maplibre/leaflet-maplibre-gl.js',
+    '/assets/vendor/maplibre/maplibre-gl.css',
+    '/assets/vendor/warm-map/style.js',
     '/assets/vendor/fonts/fonts.css',
 ];
 
