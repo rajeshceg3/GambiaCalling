@@ -16,8 +16,8 @@ test.describe('CSP & Supply Chain Security', () => {
             // Allow localhost/127.0.0.1 (self)
             if (url.includes('localhost') || url.includes('127.0.0.1')) {return;}
 
-            // Allow CARTO tiles
-            if (url.includes('.basemaps.cartocdn.com')) {return;}
+            // Allow OpenFreeMap vector tiles
+            if (url.includes('tiles.openfreemap.org')) {return;}
 
             // Log anything else
             externalRequests.push(url);
@@ -48,6 +48,7 @@ test.describe('CSP & Supply Chain Security', () => {
 
         // Verify we still allow what's needed
         expect(content).toContain("default-src 'self'");
-        expect(content).toContain("img-src 'self' data: https://*.basemaps.cartocdn.com");
+        expect(content).toContain("img-src 'self' data: blob:");
+        expect(content).toContain("connect-src 'self' https://tiles.openfreemap.org");
     });
 });

@@ -19,7 +19,7 @@
         <meta property="og:image" content="assets/og-image.jpg" />
         <meta
             http-equiv="Content-Security-Policy"
-            content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: https://*.basemaps.cartocdn.com; connect-src 'self';"
+            content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; font-src 'self'; img-src 'self' data: blob:; connect-src 'self' https://tiles.openfreemap.org; worker-src 'self';"
         />
         <title>Gambia: A Visual Journey</title>
         <link
@@ -42,6 +42,7 @@
         />
         <link rel="stylesheet" href="assets/vendor/fonts/fonts.css" />
         <link rel="stylesheet" href="assets/vendor/leaflet/leaflet.css" />
+        <link rel="stylesheet" href="assets/vendor/maplibre/maplibre-gl.css" />
         <link rel="stylesheet" href="style.css" />
         <noscript>
             <style>
@@ -582,6 +583,9 @@
         </main>
 
         <script src="assets/vendor/leaflet/leaflet.js"></script>
+        <script src="assets/vendor/maplibre/maplibre-gl-csp.js"></script>
+        <script src="assets/vendor/maplibre/leaflet-maplibre-gl.js"></script>
+        <script src="assets/vendor/warm-map/style.js"></script>
         <script type="module" src="js/main.js"></script>
     </body>
 </html>
